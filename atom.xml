@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-22T11:02:22+08:00</updated>
+  <updated>2013-01-20T00:05:23+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[BLACKROOM]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ulimit打开的文件和用户名进程]]></title>
-    <link href="http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/"/>
-    <updated>2015-01-20T16:13:10+08:00</updated>
-    <id>http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng</id>
+    <link href="http://blog.blackroom.cn/blog/2013/01/28/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/"/>
+    <updated>2013-01-28T16:13:10+08:00</updated>
+    <id>http://blog.blackroom.cn/blog/2013/01/28/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng</id>
     <content type="html"><![CDATA[<p>如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程</p>
 
 <!-- more -->
@@ -114,9 +114,9 @@ session required /lib/security/pam_limits.so</p>
   
   <entry>
     <title type="html"><![CDATA[Markdown: 基础 （快速入门）]]></title>
-    <link href="http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)/"/>
-    <updated>2015-01-20T13:06:26+08:00</updated>
-    <id>http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)</id>
+    <link href="http://blog.blackroom.cn/blog/2013/01/25/markdown-ji-chu-(kuai-su-ru-men-)/"/>
+    <updated>2013-01-25T13:06:26+08:00</updated>
+    <id>http://blog.blackroom.cn/blog/2013/01/25/markdown-ji-chu-(kuai-su-ru-men-)</id>
     <content type="html"><![CDATA[<p>Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。</p>
 
 <!-- more -->
