@@ -1,4 +1,4 @@
-redlib(<a href="http://WWW.BLACKROOM.CN">http://www.blackroom.cn</a>)
+<a href="BLACKROOM">http://www.blackroom.cn</a>)
 ======
 
 部署时与yii同级目录。
