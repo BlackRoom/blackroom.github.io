@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://www.blackroom.com/atom.xml" rel="self"/>
   <link href="http://www.blackroom.com/"/>
-  <updated>2015-01-19T17:30:06+08:00</updated>
+  <updated>2015-01-19T17:39:28+08:00</updated>
   <id>http://www.blackroom.com/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,5 +12,14 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Nihaodajia]]></title>
+    <link href="http://www.blackroom.com/blog/2015/01/19/nihaodajia/"/>
+    <updated>2015-01-19T17:37:11+08:00</updated>
+    <id>http://www.blackroom.com/blog/2015/01/19/nihaodajia</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
 </feed>
