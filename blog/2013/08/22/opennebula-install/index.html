@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OpenNebula在CentOS6.4安装备忘 - OPS Notes By 枯木</title>
+  <meta name="author" content="枯木">
+
+  
+  <meta name="description" content="简介 OpenNebula是一款为云计算而打造的开源工具箱。它允许你和Xen、KVM或VMware ESX一起建立和管理私有云，同时还提供Deltacloud适配器与Amazon EC2相配合来管理混合云。目前版本4.2，可支持XEN、KVM和VMware，以及实时存取EC2和 &hellip;">
+  <meta name="keywords" content="OpenNebula4.2, CentOS6.4, 安装">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kumu-Linux.github.io/blog/2013/08/22/opennebula-install/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="OPS Notes By 枯木" type="application/atom+xml">
+  <link href='http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+ 
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39949989-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">OPS Notes By 枯木</a></h1>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+<div class="navi">
+<ul>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/ops">Ops Tools</a></li>
+  <li><a href="/blog/tips">Linux Tips</a></li>
+  <li><a href="/blog/books">Books</a></li>
+  <li><a href="/blog/about">Author</a></li>
+</ul>
+</div>
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">OpenNebula在CentOS6.4安装备忘</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-22T11:10:00+08:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>简介</h3>
+
+<p>OpenNebula是一款为云计算而打造的开源工具箱。它允许你和Xen、KVM或VMware ESX一起建立和管理私有云，同时还提供Deltacloud适配器与Amazon EC2相配合来管理混合云。目前版本4.2，可支持XEN、KVM和VMware，以及实时存取EC2和 ElasticHosts，OpenNebula可以构建私有云、混合云、公开云。</p>
+
+<!--more-->
+
+
+<h3>OpenNebula 4.2 相关</h3>
+
+<ul>
+<li><a href="http://opennebula.org/documentation:rel4.2">OpenNebula 4.2 Guides</a></li>
+<li>ruby >= 1.8.7 #　CentOS6.4默认支持版本</li>
+<li>OpenNebula<a href="http://downloads.opennebula.org/">下载地址</a>
+
+<ul>
+<li>CentOS选择对应版本即可<strong>CentOS-6-opennebula-4.2.0-1.tar.gz</strong></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>更新配置源和update软件</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</span>
+</span><span class='line'><span class="c"># rpm -ivh http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm</span>
+</span><span class='line'><span class="c"># yum update</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>安装OpenNubula4.2</h3>
+
+<h4>解压下载的OpenNebula4.2软件包</h4>
+
+<ul>
+<li>opennebula-server: main OpenNebula daemon, scheduler, etc</li>
+<li>opennebula-sunstone: OpenNebula Sunstone, EC2, OCCI</li>
+<li>opennebula-ozones: OpenNebula OZones</li>
+<li>opennebula-ruby: Ruby Bindings</li>
+<li>opennebula-java: Java Bindings</li>
+<li>opennebula-gate: Gate server that enables communication between VMs and OpenNebula</li>
+<li>opennebula-flow: Manages services and elasticity</li>
+<li>opennebula-node-kvm: meta-package that installs the oneadmin user, libvirt and kvm</li>
+</ul>
+
+
+<p>可以直接配置OpenNebula yum源直接安装，也可以下载tar包安装</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># tar xf CentOS-6-opennebula-4.2.0-1.tar.gz</span>
+</span><span class='line'><span class="c"># cd opennebula-4.2.0-1</span>
+</span><span class='line'><span class="c"># yum localinstall opennebula-4.2.0-1.x86_64.rpm \</span>
+</span><span class='line'>opennebula-common-4.2.0-1.x86_64.rpm opennebula-java-4.2.0-1.x86_64.rpm <span class="se">\</span>
+</span><span class='line'>opennebula-gate-4.2.0-1.x86_64.rpm opennebula-flow-4.2.0-1.x86_64.rpm <span class="se">\</span>
+</span><span class='line'>opennebula-server-4.2.0-1.x86_64.rpm opennebula-ozones-4.2.0-1.x86_64.rpm <span class="se">\</span>
+</span><span class='line'>opennebula-ruby-4.2.0-1.x86_64.rpm opennebula-sunstone-4.2.0-1.x86_64.rpm -y
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>默认使用sqlite，如果使用mysql，则修改配置文件<code>/etc/one/oned.conf</code>，找到并修改如下行</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>...
+</span><span class='line'><span class="c">#DB = [ backend = &quot;sqlite&quot; ]</span>
+</span><span class='line'><span class="nv">DB</span> <span class="o">=</span> <span class="o">[</span> <span class="nv">backend</span> <span class="o">=</span> <span class="s2">&quot;mysql&quot;</span> <span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#Sample configuration for MySQL</span>
+</span><span class='line'><span class="nv">DB</span> <span class="o">=</span> <span class="o">[</span> <span class="nv">backend</span> <span class="o">=</span> <span class="s2">&quot;mysql&quot;</span>,
+</span><span class='line'>       <span class="nv">server</span>  <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span>,
+</span><span class='line'>       <span class="nv">port</span>    <span class="o">=</span> 3306,
+</span><span class='line'>       <span class="nv">user</span>    <span class="o">=</span> <span class="s2">&quot;oneadmin&quot;</span>,
+</span><span class='line'>       <span class="nv">passwd</span>  <span class="o">=</span> <span class="s2">&quot;123321&quot;</span>,
+</span><span class='line'>       <span class="nv">db_name</span> <span class="o">=</span> <span class="s2">&quot;opennebula&quot;</span> <span class="o">]</span>
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>启动相关服务</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># /etc/init.d/opennebula start</span>
+</span><span class='line'><span class="c"># /etc/init.d/opennebula-sunstone start</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>修改sunstone默认监听网址</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># lsof -i:9869  # 默认监听本地9869端口，如果连接需要修改为和外网通信地址</span>
+</span><span class='line'>COMMAND   PID     USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+</span><span class='line'>ruby    22131 oneadmin    6u  IPv4 107999      0t0  TCP localhost:9869 <span class="o">(</span>LISTEN<span class="o">)</span>
+</span><span class='line'><span class="c"># grep &#39;:host&#39; /etc/one/sunstone-server.conf</span>
+</span><span class='line'>:host: 127.0.0.1
+</span><span class='line'><span class="c"># sed -i &#39;/:host/s/127.0.0.1/192.168.80.130/g&#39; /etc/one/sunstone-server.conf</span>
+</span><span class='line'><span class="c"># grep &#39;:host&#39; /etc/one/sunstone-server.conf </span>
+</span><span class='line'>:host: 192.168.80.130
+</span><span class='line'><span class="c"># /etc/init.d/opennebula-sunstone restart</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>浏览器登录测试</h3>
+
+<p>http://192.168.80.130:9869</p>
+
+<p><img src="/images/OpenNebula_web.png" width="500" /></p>
+
+<p>用户名和密码在安装的时候已经随机生成，oneadmin 是用户名，后面的一串是密码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># cat /var/lib/one/.one/one_auth </span>
+</span><span class='line'>oneadmin:023c0bd7b09d0631074cc16aa61b7d60
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考文档</h3>
+
+<ul>
+<li><a href="http://opennebula.org/documentation:rel4.2:ignc#centos_platform_notes">One install doc</a></li>
+<li><a href="http://www.vpsee.com/2013/05/install-opennebula-4-0-on-centos-6-4/">在CentOS6.4上安装和配置OpenNebula4.0</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/12/pssh/" title="Previous Post: pssh使用方法">&laquo; pssh使用方法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/08/22/kvm/" title="Next Post: CentOS6.4 X86_64 kvm+PXE备忘">CentOS6.4 X86_64 kvm+PXE备忘 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 枯木 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kumusanotes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kumu-Linux.github.io/blog/2013/08/22/opennebula-install/';
+        var disqus_url = 'http://kumu-Linux.github.io/blog/2013/08/22/opennebula-install/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

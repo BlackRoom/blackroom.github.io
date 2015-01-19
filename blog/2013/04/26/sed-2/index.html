@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>OPS Notes By 枯木</title>
+  <title>1-2、Sed Scripting Flow[译] - OPS Notes By 枯木</title>
   <meta name="author" content="枯木">
 
   
-  <meta name="description" content=" Crap!! Looks like the page you&#8217;re looking for doesn&#8217;t exist. Just go home and try again! ">
-  
+  <meta name="description" content="Sed脚本遵循易容易记住的顺序阅读、执行、输出、重复。可以使用REPE首字母缩写来记住sed的执行流程。 我们来看这个序列的步骤。Sed将会： Read 读取一行到模式空间(一个内部sed的缓冲池，被用来存放从输入文件的读取行)
+Execute sed命令在sed的模式空间中执行。 &hellip;">
+  <meta name="keywords" content="sed,hacks,枯木">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kumu-Linux.github.io/404.html">
+  <link rel="canonical" href="http://kumu-Linux.github.io/blog/2013/04/26/sed-2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -73,19 +74,78 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
-  <h2>Crap!!</h2>
+  <header>
+    
+      
+        <h1 class="entry-title">1-2、Sed Scripting Flow[译]</h1>
+      
+    
+    
+      <p class="meta">
+        
 
-<p>Looks like the page you&#8217;re looking for doesn&#8217;t exist. Just go <a href="/">home</a> and try again!</p>
+
+
+
+
+
+
 
   
-    <footer>
+
+
+<time datetime="2013-04-26T16:28:00+08:00" pubdate data-updated="true">Apr 26<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Sed脚本遵循易容易记住的顺序阅读、执行、输出、重复。可以使用<code>REPE</code>首字母缩写来记住sed的执行流程。</p>
+
+<!--more-->
+
+
+<p>我们来看这个序列的步骤。Sed将会：</p>
+
+<ul>
+<li><strong>Read</strong> 读取一行到模式空间(一个内部sed的缓冲池，被用来存放从输入文件的读取行)</li>
+<li><strong>Execute</strong> sed命令在sed的模式空间中执行。如果有一个以上的sed命令，无论通过sed脚本、-e选项或者是{}，它会在模式空间中按照行的顺序执行所有的命令</li>
+<li><strong>Print</strong> 从模式空间中输出行。当输出该行以后，模式空间就会变成空的状态</li>
+<li><strong>Repeat</strong> 一直重复直到到达输入文件的行尾结束</li>
+</ul>
+
+
+<p>下图为以上四步的一个示意图：</p>
+
+<center><img src="/images/sed-2.png" alt="sed-flow" title="sed-flow" width="600" /></center>
+
+
+<p>&#8211;EOF&#8211;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/25/github-drinkup/" title="Previous Post: Github Drinkup">&laquo; Github Drinkup</a>
       
       
-    </footer>
-  
+        <a class="basic-alignment right" href="/blog/2013/04/27/dmidecode/" title="Next Post: dmidecode">dmidecode &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 
 </div>
@@ -111,7 +171,10 @@
       var disqus_shortname = 'kumusanotes';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kumu-Linux.github.io/blog/2013/04/26/sed-2/';
+        var disqus_url = 'http://kumu-Linux.github.io/blog/2013/04/26/sed-2/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

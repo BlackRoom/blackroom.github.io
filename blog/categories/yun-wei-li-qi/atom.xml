@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 运维利器 | OPS Notes By 枯木]]></title>
+  <link href="http://kumu-Linux.github.io/blog/categories/yun-wei-li-qi/atom.xml" rel="self"/>
+  <link href="http://kumu-Linux.github.io/"/>
+  <updated>2014-07-22T14:53:42+08:00</updated>
+  <id>http://kumu-Linux.github.io/</id>
+  <author>
+    <name><![CDATA[枯木]]></name>
+    <email><![CDATA[1988.wulei@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[[2]salt文件分发]]></title>
+    <link href="http://kumu-Linux.github.io/blog/2014/02/20/salt-file-manager/"/>
+    <updated>2014-02-20T22:12:00+08:00</updated>
+    <id>http://kumu-Linux.github.io/blog/2014/02/20/salt-file-manager</id>
+    <content type="html"><![CDATA[<p><strong>取消配置文件<code>/etc/salt/master</code>以下注释</strong></p>
+
+<p>```
+... ...
+file_roots:
+  base:</p>
+
+<pre><code>- /srv/salt
+</code></pre>
+
+<p>... ...
+```</p>
+
+<!--more-->
+
+
+<p><strong>新建相关目录</strong>
+<code>
+mkdir /srv/salt
+touch /srv/salt/top.sls
+</code></p>
+
+<p>top.sls文件
+<code>/srv/salt/top.sls</code>
+```
+base:
+  '*':</p>
+
+<pre><code>- ssh_key.key
+</code></pre>
+
+<p>```</p>
+
+<p><code>
+mkdir /srv/salt/ssh_key
+touch /srv/salt/test.sls
+</code></p>
+
+<p><code>/srv/salt/test.sls</code>
+```
+/root/.ssh/authorized_keys:</p>
+
+<h1>客户端文件存放路径和命名，如果.ssh目录不存在则会自动新建</h1>
+
+<p>  file:</p>
+
+<pre><code>- managed
+- source: salt://ssh_key/test   
+# 默认file根目录为`/srv/salt`，拷贝相应文件至所在目录
+- user: root
+- group: root
+- mode: 600
+</code></pre>
+
+<p>```</p>
+
+<p><strong>最终目录结构</strong>
+```</p>
+
+<h1>tree /srv/salt/</h1>
+
+<p>/srv/salt/
+|-- ssh_key
+|   |-- test
+|   |-- test.sls
+`-- top.sl
+```</p>
+
+<p><strong>server端主动推送</strong>
+<code>
+salt '*' state.highstate -v     # 按照top.sls执行所有
+salt '*' state.sls ssh_key.ms   # 指定sls执行
+</code></p>
+
+<p>--EOF--</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[[1]salt install]]></title>
+    <link href="http://kumu-Linux.github.io/blog/2014/02/20/salt-install/"/>
+    <updated>2014-02-20T21:57:00+08:00</updated>
+    <id>http://kumu-Linux.github.io/blog/2014/02/20/salt-install</id>
+    <content type="html"><![CDATA[<h2>Install</h2>
+
+<p>First => repl源</p>
+
+<p>rhel6
+<code>
+rpm -ivh \
+http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+</code></p>
+
+<!--more-->
+
+
+<p>rhel5
+<code>
+rpm -ivh \
+http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
+</code></p>
+
+<h3>Server</h3>
+
+<p><code>
+yum install salt-master
+chkconfig salt-master on
+service salt-master start  # salt-master -d也可以启动
+</code></p>
+
+<h3>Client</h3>
+
+<p><code>
+yum install salt-minion
+chkconfig salt-minion on
+service salt-minion start  # salt-minion -d也可以启动
+</code></p>
+
+<p>使用<code>--user</code>选项可以选择运行salt的用户</p>
+
+<p><code>   
+salt-master -d --user test
+salt-minion -d --user test
+</code></p>
+
+<h2>Configure</h2>
+
+<h3>Master基本配置</h3>
+
+<p><code>/etc/salt/master</code>主配置文件</p>
+
+<p><code>
+... ...
+interface: 192.168.80.131   # 取消外网监听
+... ...
+autosign_file: /etc/salt/autosign.conf  # 设定匹配主机自动接受key
+... ...
+</code></p>
+
+<p>restart生效
+<code>
+/etc/init.d/salt-master restart
+</code></p>
+
+<h3>Client基本配置</h3>
+
+<p><code>/etc/salt/minion</code>主配置文件</p>
+
+<p><code>
+... ...
+master: 192.168.80.131  # 取消外网监听
+... ...
+</code></p>
+
+<p>restart生效
+<code>
+service salt-minion restart
+</code></p>
+
+<h2>基本命令</h2>
+
+<p>```</p>
+
+<h1>salt-key -L   # 列出当前所有key，包括接受、未接受、拒绝的key</h1>
+
+<p>Accepted Keys:
+Unaccepted Keys:
+kumu-ops-130.puppet.com
+Rejected Keys:</p>
+
+<h1>salt-key -A   # 接受所有未认证key</h1>
+
+<p>The following keys are going to be accepted:
+Unaccepted Keys:
+kumu-ops-130.puppet.com
+Proceed? [n/Y] y
+Key for minion kumu-ops-130.puppet.com accepted.
+```</p>
+
+<ul>
+<li>添加某个key, <code>salt-key -a keyname</code></li>
+<li>删除某个key，<code>slat-key -d keyname</code></li>
+</ul>
+
+
+<p>```</p>
+
+<h1>salt kumu-ops-130.puppet.com test.ping</h1>
+
+<h1>salt '*' test.ping    # 测试所有主机连通性</h1>
+
+<p>```</p>
+
+<h3>匹配</h3>
+
+<ul>
+<li>匹配所有的Client
+
+<ul>
+<li><code>salt '*' test.ping</code></li>
+</ul>
+</li>
+<li>匹配符合条件的Client
+
+<ul>
+<li><code>salt '*.example.net' test.ping</code></li>
+<li><code>salt '*.example.*' test.ping</code></li>
+</ul>
+</li>
+<li>单个匹配Client
+
+<ul>
+<li><code>salt 'web?.example.net' test.ping</code></li>
+</ul>
+</li>
+<li>匹配web1到web5
+
+<ul>
+<li><code>salt 'web[1-5]' test.ping</code></li>
+</ul>
+</li>
+<li>匹配web-x、web-y、web-z Client
+
+<ul>
+<li><code>salt 'web-[x-z]' test.ping</code></li>
+</ul>
+</li>
+<li>匹配web1-prod和web1-devel的Client
+
+<ul>
+<li><code>salt -E 'web1-(prod|devel)' test.ping</code></li>
+</ul>
+</li>
+<li>列表
+
+<ul>
+<li><code>salt -L 'web1,web2,web3' test.ping</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Grains</h3>
+
+<p>salt配备了一个获取底层信息的接口<code>Grains</code>，grains的信息都是静态信息，不可变的</p>
+
+<ul>
+<li>匹配所有的CentOS Client：
+
+<ul>
+<li><code>salt -G 'os:CentOS' test.ping</code></li>
+</ul>
+</li>
+<li>查看grains分类:
+
+<ul>
+<li><code>salt '*' grains.ls</code></li>
+</ul>
+</li>
+<li>查看grains所有信息:
+
+<ul>
+<li><code>salt '*' grains.items</code></li>
+</ul>
+</li>
+<li>osrelease查看grains某个信息:
+
+<ul>
+<li><code>salt '*' grains.item</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>More...</h3>
+
+<p>查看salt更多的命令手册 <code>salt '*' sys.doc</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xshell基本设置备忘]]></title>
+    <link href="http://kumu-Linux.github.io/blog/2013/10/17/xshell/"/>
+    <updated>2013-10-17T15:41:00+08:00</updated>
+    <id>http://kumu-Linux.github.io/blog/2013/10/17/xshell</id>
+    <content type="html"><![CDATA[<center><img src="http://kumu-Linux.github.io/images/xshell/xshell6.png" width="400"></center>
+
+
+<p>类似xshell的终端连接工具有很多，比如putty、securecrt，xshell算是一个新秀，具体怎么使用完全看个人爱好，没有什么可以争议的。</p>
+
+<!--more-->
+
+
+<h3>选项</h3>
+
+<p>菜单栏--工具--选项</p>
+
+<p>选中复制，中键粘贴</p>
+
+<p><img src="http://kumu-Linux.github.io/images/xshell/xshell4.png" width="400"></p>
+
+<p>窗口透明【Alt+R快捷键启用和关闭】</p>
+
+<p><img src="http://kumu-Linux.github.io/images/xshell/xshell2.png" width="400"></p>
+
+<p>关闭警告声</p>
+
+<p><img src="http://kumu-Linux.github.io/images/xshell/xshell3.png" width="400"></p>
+
+<h3>属性</h3>
+
+<p>菜单栏--文件--属性【Alt+p快速打开】</p>
+
+<p>backspace 按键乱码，属性--终端--键盘</p>
+
+<p><img src="http://kumu-Linux.github.io/images/xshell/xshell1.png" width="400"></p>
+
+<p>Xshell启用Xagent，属性--ssh</p>
+
+<p><img src="http://kumu-Linux.github.io/images/xshell/xshell5.png" width="400"></p>
+
+<p><strong>注</strong>：<s>Win8和Win8.1测试发现在xshell上中文输入乱码，最后确认得知是自带输入法的问题，禁用自带输入法选择第三方输入法即可</s></p>
+
+<p>--EOF--</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux下终端利器tmux]]></title>
+    <link href="http://kumu-Linux.github.io/blog/2013/08/06/tmux/"/>
+    <updated>2013-08-06T11:05:00+08:00</updated>
+    <id>http://kumu-Linux.github.io/blog/2013/08/06/tmux</id>
+    <content type="html"><![CDATA[<blockquote><p>"君子生非异也，善假于物也" 。--语出《荀子·劝学》</p></blockquote>
+
+<p>如果记得没错的话，《荀子·劝学》我们这一代高中的时候应该都读过这篇文章。原意大概是君子的资质与一般人没有什么区别，君子之所以高于一般人，是因为他能善于利用外物。对于技术人来说，好工具的选择和使用往往可以省去很多不必要的麻烦，好的开源工具很多，看你如何去使用。对于终端复用工具这里推荐使用tmux，当然此类工具比较好的还有screen，不过相对<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-screen/">screen</a> 这里我更倾向于推荐tmux[强悍的分屏等]。</p>
+
+<!--more-->
+
+
+<p>如果仅仅只是多标签的功能，那么putty结合一些工具也可以做到，或者干脆使用xshell，当然tmux此类工具不仅仅是那么简单。另外一个选择使用tmux/screen工具的原因是，有时我们会经常需要SSH或者telent远程登录到Linux服务器，有一些任务需要长时间运行，比如系统备份、数据传输等。通常情况下我们都是开一个远程终端窗口，因为执行时间比较长，一般需要等待它执行完毕，在此过程中不能关闭窗口或者网络原因断开连接，断开之后就Game Over了。这个功能就有点类似<code>nohup</code>和<code>setsid</code>命令的实现了，而tmux/screen则集nohup/setsid和多标签于一身。废话少说，我们接下来看如何安装使用它。</p>
+
+<h3>安装</h3>
+
+<p>安装的话这里就不过说明了，不同的Linux发行版相应的包管理机制不同，安装tmux包即可。</p>
+
+<h3>使用技巧</h3>
+
+<h4>几个名词</h4>
+
+<p>tmux主要包括以下几个模块：</p>
+
+<table>
+    <tr>
+        <td>session</td>
+        <td>会话:一个服务器可以包含多个会话</td>
+    </tr>
+    <tr>
+        <td>window</td>
+        <td>窗口:一个会话可以包含多个窗口</td>
+    </tr>
+    <tr>
+        <td>pane</td>
+        <td>面板:一个窗口可以包含多个面板[强悍的分屏]</td>
+    </tr>
+</table>
+
+
+
+
+<p></p>
+
+
+<h4>小试牛刀</h4>
+
+<p>列出了tmux的几个基本模块之后，就要来点实实在在的干货了，和<code>screen</code>默认激活控制台的<code>Ctrl+a</code>不同，tmux默认的是<code>Ctrl+b</code>，使用快捷键之后就可以执行一些相应的指令了。当然如果你不习惯使用<code>Ctrl+b</code>，也可以在<code>~/.tmux</code>文件中加入以下内容把快捷键变为<code>Ctrl+a</code>：</p>
+
+<p>``` bash</p>
+
+<h1>Set prefix key to Ctrl-a</h1>
+
+<p>unbind-key C-b
+set-option -g prefix C-a
+```</p>
+
+<p>以下所有的操作都是激活控制台之后，即键入<code>Ctrl+b</code>前提下才可以使用的命令【这里假设快捷键没改，改了的话则用<code>Ctrl+b</code>】。</p>
+
+<p><u>基本操作</u>：</p>
+
+<table>
+    <tr>
+        <td>?</td>
+        <td>列出所有快捷键；按q返回</td>
+    </tr>
+    <tr>
+        <td>d</td>
+        <td>脱离当前会话,可暂时返回Shell界面，输入tmux attach能够重新进入之前会话</td>
+    </tr>
+    <tr>
+        <td>s</td>
+        <td>选择并切换会话；在同时开启了多个会话时使用</td>
+    </tr>
+    <tr>
+        <td>D</td>
+        <td>选择要脱离的会话；在同时开启了多个会话时使用</td>
+    </tr>   
+    <tr>
+        <td>:</td>
+        <td>进入命令行模式；此时可输入支持的命令，例如kill-server所有tmux会话</td>
+    </tr>
+    <tr>
+        <td>[</td>
+        <td>复制模式，光标移动到复制内容位置，空格键开始，方向键选择复制，回车确认，q/Esc退出</td>
+    </tr>
+    <tr>
+        <td>]</td>
+        <td>进入粘贴模式，粘贴之前复制的内容，按q/Esc退出</td>
+    </tr>
+    <tr>
+        <td>~</td>
+        <td>列出提示信息缓存；其中包含了之前tmux返回的各种提示信息</td>
+    </tr>
+    <tr>
+        <td>t</td>
+        <td>显示当前的时间</td>
+    </tr>
+    <tr>
+        <td>Ctrl+z</td>
+        <td>挂起当前会话</td>
+    </tr>
+</table>
+
+
+
+
+<p></p>
+
+
+<p><u>窗口操作</u>:</p>
+
+<table>
+    <tr>
+        <td>c</td>
+        <td>创建新窗口</td>
+    </tr>
+    <tr>
+        <td>&</td>
+        <td>关闭当前窗口</td>
+    </tr>
+    <tr>
+        <td>数字键</td>
+        <td>切换到指定窗口</td>
+    </tr>
+    <tr>
+        <td>p</td>
+        <td>切换至上一窗口</td>
+    </tr>
+    <tr>
+        <td>n</td>
+        <td>切换至下一窗口</td>
+    </tr>
+    <tr>
+        <td>l</td>
+        <td>前后窗口间互相切换</td>
+    </tr>
+    <tr>
+        <td>w</td>
+        <td>通过窗口列表切换窗口</td>
+    </tr>
+    <tr>
+        <td>,</td>
+        <td>重命名当前窗口，便于识别</td>
+    </tr>
+    <tr>
+        <td>.</td>
+        <td>修改当前窗口编号，相当于重新排序</td>
+    </tr>
+    <tr>
+        <td>f</td>
+        <td>在所有窗口中查找关键词，便于窗口多了切换</td>
+    </tr>
+</table>
+
+
+
+
+<p></p>
+
+
+<p><u>面板操作</u>:</p>
+
+<table>
+    <tr>
+        <td>"</td>
+        <td>将当前面板上下分屏</td>
+    </tr>
+    <tr>
+        <td>%</td>
+        <td>将当前面板左右分屏</td>
+    </tr>
+    <tr>
+        <td>x</td>
+        <td>关闭当前分屏</td>
+    </tr>
+    <tr>
+        <td>!</td>
+        <td>将当前面板置于新窗口,即新建一个窗口,其中仅包含当前面板</td>
+    </tr>
+    <tr>
+        <td>Ctrl+方向键</td>
+        <td>以1个单元格为单位移动边缘以调整当前面板大小</td>
+    </tr>
+    <tr>
+        <td>Alt+方向键</td>
+        <td>以5个单元格为单位移动边缘以调整当前面板大小</td>
+    </tr>
+    <tr>
+        <td>空格键</td>
+        <td>可以在默认面板布局中切换，试试就知道了</td>
+    </tr>
+    <tr>
+        <td>q</td>
+        <td>显示面板编号</td>
+    </tr>
+    <tr>
+        <td>o</td>
+        <td>选择当前窗口中下一个面板</td>
+    </tr>
+    <tr>
+        <td>方向键</td>
+        <td>移动光标选择对应面板</td>
+    </tr>
+    <tr>
+        <td>{</td>
+        <td>向前置换当前面板</td>
+    </tr>
+    <tr>
+        <td>}</td>
+        <td>向后置换当前面板</td>
+    </tr>
+    <tr>
+        <td>Alt+o</td>
+        <td>逆时针旋转当前窗口的面板</td>
+    </tr>
+    <tr>
+        <td>Ctrl+o</td>
+        <td>顺时针旋转当前窗口的面板</td>
+    </tr>
+    <tr>
+        <td>z</td>
+        <td>tmux 1.8新特性，最大化当前所在面板</td>
+    </tr>
+</table>
+
+
+
+
+<p></p>
+
+
+<h4>.tmux.conf基本配置</h4>
+
+<p>软件到手了，自己怎么舒服就怎么用。定制主要还是在于<code>.tmux.conf</code>配置文件的配置，以下列出我的配置文件：
+``` bash</p>
+
+<h1>Set prefix key to Ctrl-a</h1>
+
+<p>unbind-key C-b
+set-option -g prefix C-a
+bind-key C-a last-window # 方便切换，个人习惯
+bind-key a send-prefix</p>
+
+<h1>shell下的Ctrl+a切换到行首在此配置下失效，此处设置之后Ctrl+a再按a即可切换至shell行首</h1>
+
+<h1>reload settings   # 重新读取加载配置文件</h1>
+
+<p>bind R source-file ~/.tmux.conf \; display-message "Config reloaded..."</p>
+
+<h1>Ctrl-Left/Right cycles thru windows (no prefix)</h1>
+
+<h1>不使用prefix键，使用Ctrl和左右方向键方便切换窗口</h1>
+
+<p>bind-key -n "C-Left" select-window -t :-
+bind-key -n "C-Right" select-window -t :+</p>
+
+<h1>displays</h1>
+
+<p>bind-key * list-clients</p>
+
+<p>set -g default-terminal "screen-256color"   # use 256 colors
+set -g display-time 5000                    # status line messages display
+set -g status-utf8 on                       # enable utf-8
+set -g history-limit 100000                 # scrollback buffer n lines
+setw -g mode-keys vi                        # use vi mode</p>
+
+<h1>start window indexing at one instead of zero 使窗口从1开始，默认从0开始</h1>
+
+<p>set -g base-index 1</p>
+
+<h1>key bindings for horizontal and vertical panes</h1>
+
+<p>unbind %
+bind | split-window -h      # 使用|竖屏，方便分屏
+unbind '"'
+bind - split-window -v      # 使用-横屏，方便分屏</p>
+
+<h1>window title string (uses statusbar variables)</h1>
+
+<p>set -g set-titles-string '#T'</p>
+
+<h1>status bar with load and time</h1>
+
+<p>set -g status-bg blue
+set -g status-fg '#bbbbbb'
+set -g status-left-fg green
+set -g status-left-bg blue
+set -g status-right-fg green
+set -g status-right-bg blue
+set -g status-left-length 90
+set -g status-right-length 90
+set -g status-left '[#(whoami)]'
+set -g status-right '[#(date +" %m-%d %H:%M ")]'
+set -g status-justify "centre"
+set -g window-status-format '#I #W'
+set -g window-status-current-format ' #I #W '
+setw -g window-status-current-bg blue
+setw -g window-status-current-fg green</p>
+
+<h1>pane border colors</h1>
+
+<p>set -g pane-active-border-fg '#55ff55'
+set -g pane-border-fg '#555555'
+```</p>
+
+<h4>开启批量执行</h4>
+
+<p>如果已经修改prefix键位<code>Ctrl+a</code>，则<code>Ctrl+a</code>[默认Ctrl+b]后输入<code>:set synchronize-panes</code> ，输入:set sync [TAB]键可自动补齐</p>
+
+<p><img src="http://kumu-Linux.github.io/images/tmux.jpg"></p>
+
+<p></p>
+
+
+<p>取消批量执行模式重复之前操作即可</p>
+
+<h4>脚本化启动</h4>
+
+<p>把以下脚本内容加入到~/.bashrc，即可每次登录进入到tmux
+``` bash
+tmux_init()
+{</p>
+
+<pre><code>tmux new-session -s "kumu" -d -n "local"    # 开启一个会话
+tmux new-window -n "other"          # 开启一个窗口
+tmux split-window -h                # 开启一个竖屏
+tmux split-window -v "top"          # 开启一个横屏,并执行top命令
+tmux -2 attach-session -d           # tmux -2强制启用256color，连接已开启的tmux
+</code></pre>
+
+<p>}</p>
+
+<h1>判断是否已有开启的tmux会话，没有则开启</h1>
+
+<p>if which tmux 2>&amp;1 >/dev/null; then</p>
+
+<pre><code>test -z "$TMUX" &amp;&amp; (tmux attach || tmux_init)
+</code></pre>
+
+<p>fi
+```</p>
+
+<p>效果如下：</p>
+
+<p><img src="http://kumu-Linux.github.io/images/tmux1.jpg"></p>
+
+<p></p>
+
+
+<p>--EOF--</p>
+
+<h3>参考文档</h3>
+
+<ul>
+<li><a href="https://wiki.freebsdchina.org/software/t/tmux">使用tmux</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Tmux">archlinux tmux</a></li>
+<li><a href="http://wiki.wutianqi.com/software/tmux.html">Tankywoo tmux wiki</a></li>
+<li><a href="http://www.lovelin.info/blog/2012/10/25/tmuxshi-yong-xin-de-xiao-ji/">Tmux 使用心得小记 </a></li>
+<li><a href="http://www.openbsd.org/cgi-bin/man.cgi?query=tmux&amp;sektion=1">Tmux Openbsd Manual Pages</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[top实践小技巧]]></title>
+    <link href="http://kumu-Linux.github.io/blog/2013/06/07/top-hacks/"/>
+    <updated>2013-06-07T17:32:00+08:00</updated>
+    <id>http://kumu-Linux.github.io/blog/2013/06/07/top-hacks</id>
+    <content type="html"><![CDATA[<p>之前介绍了<a href="http://kumu-linux.github.io/blog/2013/06/02/top/">top基本介绍</a>,本章主要介绍一些top的实用技巧。</p>
+
+<!--more-->
+
+
+<p>终端执行top命令之后【也可后接一些选项，比如<code>top -p 1</code>只监控init进程，<code>top -u root</code>只显示root运行进程等等】，可以敲击如下按键，实现不同功能：</p>
+
+<ul>
+<li><code>1</code>(数字1)：列出所有的单个CPU负载情况</li>
+<li><code>z</code>:top显示颜色</li>
+<li><code>P</code>[大写]:按CPU占用高低顺序列出程序</li>
+<li><code>M</code>[大写]:按内存占用高低顺序列出程序</li>
+<li><code>x</code>:类似高亮显示，在z显示模式下效果才会更明显</li>
+</ul>
+
+
+<p>如下效果图:</p>
+
+<center><img src="http://kumu-Linux.github.io/images/top1.png" alt="geek" title="geek" width="600" /></center>
+
+
+<ul>
+<li>top显示Swap利用率，使用top命令后按f键，然后按p键，回车之后即可看到Swap状态</li>
+</ul>
+
+
+<center><img src="http://kumu-Linux.github.io/images/top2.png" alt="geek" title="geek" width="600" /></center>
+
+
+<ul>
+<li><code>d</code>:top默认的刷新时间是3s，使用d键可以自定义刷新时间</li>
+</ul>
+
+
+<center><img src="http://kumu-Linux.github.io/images/top3.png" alt="geek" title="geek" width="600" /></center>
+
+
+
+
+<p></p>
+
+
+<p><strong>top类似上下翻页的方法：</strong></p>
+
+<ul>
+<li>shift &lt;  下翻页</li>
+<li>shift >   上翻页</li>
+</ul>
+
+
+<p>top默认按cpu占用排序，这也是可以修改的，按F(大写)即可选择相应排序，之后任意键退出即可</p>
+
+<center><img src="http://kumu-Linux.github.io/images/top4.png" alt="geek" title="geek" width="600" /></center>
+
+
+<ul>
+<li><code>c</code>:显示进程命令的全路径与参数</li>
+<li><code>f</code>:可以指定top显示的内容，如ppid、swap等都可以选择显示</li>
+<li><code>k</code>:输入k之后可以kill掉指定的进程</li>
+<li><code>A</code>:分类显示各种系统资源高的进程。可用于快速识别系统上的性能要求极高的任务，<strong>推荐使用</strong></li>
+<li><code>h</code>:获取top的命令帮助</li>
+<li><code>H</code>:显示线程，默认只显示进程</li>
+<li><code>W</code>[大写]:将当前设置写入~/.toprc文件中。这是写top配置文件的推荐方法</li>
+</ul>
+
+
+<p>参考: <a href="http://linux.vbird.org/">鸟哥Linux私房菜</a>  <a href="http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html">top - Process Activity Command</a>  <a href="http://how-to.linuxcareer.com/learning-linux-commands-top">Learning Linux Commands: top</a></p>
+
+<p>--EOF--</p>
+]]></content>
+  </entry>
+  
+</feed>

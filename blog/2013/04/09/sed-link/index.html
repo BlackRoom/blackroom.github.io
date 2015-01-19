@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>sed -i修改链接文件注意问题 - OPS Notes By 枯木</title>
+  <meta name="author" content="枯木">
+
+  
+  <meta name="description" content="问题重现 因为sed -i /etc/sysconfig/selinux(selinux文件是/etc/selinux/config的软链接)配置文件重启SELINUX没有关闭，才发现原来sed -i是不能直接修改软链接文件的，如下我修改之后的后果： 1
+2
+3
+4
+5
+6
+[root@node1 &hellip;">
+  <meta name="keywords" content="Linux,sed">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://kumu-Linux.github.io/blog/2013/04/09/sed-link/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="OPS Notes By 枯木" type="application/atom+xml">
+  <link href='http://fonts.useso.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<!--
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+-->
+ 
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39949989-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">OPS Notes By 枯木</a></h1>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+<div class="navi">
+<ul>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/blog/ops">Ops Tools</a></li>
+  <li><a href="/blog/tips">Linux Tips</a></li>
+  <li><a href="/blog/books">Books</a></li>
+  <li><a href="/blog/about">Author</a></li>
+</ul>
+</div>
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Sed -i修改链接文件注意问题</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-09T23:23:00+08:00" pubdate data-updated="true">Apr 9<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>问题重现</h2>
+
+<p>因为sed -i /etc/sysconfig/selinux(selinux文件是/etc/selinux/config的软链接)配置文件重启SELINUX没有关闭，才发现原来sed -i是不能直接修改软链接文件的，如下我修改之后的后果：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ll /etc/sysconfig/selinux   </span>
+</span><span class='line'>lrwxrwxrwx. 1 root root 19 2月  20 20:34 /etc/sysconfig/selinux -&gt; /etc/selinux/config
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># sed -i &quot;s/SELINUX=enforcing/SELINUX=disabled/g&quot; /etc/sysconfig/selinux  </span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ll /etc/sysconfig/selinux   </span>
+</span><span class='line'>-rw-r--r-- 1 root root 457 2月  20 22:50 /etc/sysconfig/selinux
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c">#   </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<p>我们发现链接文件不再是链接文件了，后来查看sed man选项时发现如下选项说明</p>
+
+<ul>
+<li><p>&#8211;follow-symlinks</p>
+
+<ul>
+<li>follow symlinks when processing in place; hard links will still be broken.</li>
+</ul>
+</li>
+<li><p>-i[SUFFIX], &#8211;in-place[=SUFFIX]</p>
+
+<ul>
+<li>edit  files  in  place (makes backup if extension supplied).  The default operation mode is to break symbolic and hard links.  This can be changed with &#8211;follow-symlinks and &#8211;copy.</li>
+</ul>
+</li>
+<li><p>-c, &#8211;copy</p>
+
+<ul>
+<li>use copy instead of rename when shuffling files in -i mode.  While this  will  avoid  breaking links  (symbolic  or hard), the resulting editing operation is not atomic.  This is rarely the desired mode;</li>
+</ul>
+</li>
+<li><p>&#8211;follow-symlinks is usually enough, and it is both faster and more secure.</p></li>
+</ul>
+
+
+<p>以上说明就不作过多解释了，说的很明显，看下面实例</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># echo &quot;test&quot; &gt;&gt;test  </span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ln -s ~/test ~/test_soft  </span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ln ~/test ~/test_hard  </span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ll -i test*  </span>
+</span><span class='line'>271653 -rw-r--r-- 2 root root  5 2月  20 23:04 <span class="nb">test  </span>
+</span><span class='line'>271653 -rw-r--r-- 2 root root  5 2月  20 23:04 test_hard
+</span><span class='line'>271655 lrwxrwxrwx 1 root root 10 2月  20 23:04 test_soft -&gt; /root/test
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># sed -i &quot;s/test/hard/g&quot; test_hard   </span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># sed -i &quot;s/test/soft/g&quot; test_soft   </span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ll -i test*  </span>
+</span><span class='line'>271653 -rw-r--r-- 1 root root 5 2月  20 23:04 <span class="nb">test  </span>
+</span><span class='line'>271656 -rw-r--r-- 1 root root 5 2月  20 23:05 test_hard
+</span><span class='line'>271657 -rw-r--r-- 1 root root 5 2月  20 23:06 test_soft
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c">#   </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>很明显如man中所说-i选项对软链接和硬链接都会使受到破坏,而-c选项则不会</p>
+
+<h2>问题解决</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># rm -rf test*</span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># echo &quot;test&quot; &gt;&gt;test</span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ln -s ~/test ~/test_soft</span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ln ~/test ~/test_hard</span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ll -i test*</span>
+</span><span class='line'>271653 -rw-r--r-- 2 root root  5 2月  20 23:08 <span class="nb">test</span>
+</span><span class='line'>271653 -rw-r--r-- 2 root root  5 2月  20 23:08 test_hard
+</span><span class='line'>271655 lrwxrwxrwx 1 root root 10 2月  20 23:08 test_soft -&gt; /root/test
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># sed -i -c  &quot;s/test/soft/g&quot; test_soft </span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># sed -i -c  &quot;s/test/soft/g&quot; test_hard </span>
+</span><span class='line'><span class="o">[</span>root@node1 ~<span class="o">]</span><span class="c"># ll -i test*</span>
+</span><span class='line'>271653 -rw-r--r-- 2 root root  5 2月  20 23:11 <span class="nb">test</span>
+</span><span class='line'>271653 -rw-r--r-- 2 root root  5 2月  20 23:11 test_hard
+</span><span class='line'>271655 lrwxrwxrwx 1 root root 10 2月  20 23:08 test_soft -&gt; /root/test
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>&#8211;follow-symlinks选项只对软链接有效，硬链接还是会被破坏，建议使用-c选项，这里就不举例了</p>
+
+<h2>问题延伸</h2>
+
+<p>后来发现在RHEL5上运行相同的操作居然没有出现类似的现象，运行结果如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;test&quot;</span> &gt;&gt; <span class="nb">test</span>
+</span><span class='line'><span class="nv">$ </span>ln -s ~/test ~/test1
+</span><span class='line'><span class="nv">$ </span>ll ~/test1
+</span><span class='line'>lrwxrwxrwx 1 sxkj sxkj 15 02-21 13:26 /home/sxkj/test1 -&gt; /home/sxkj/test
+</span><span class='line'><span class="nv">$ </span>sed -i <span class="s2">&quot;s/test/test1/g&quot;</span> ~/test1
+</span><span class='line'><span class="nv">$ </span>ll ~/test1
+</span><span class='line'>lrwxrwxrwx 1 sxkj sxkj 15 02-21 13:26 /home/sxkj/test1 -&gt; /home/sxkj/test
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>经查是sed的版本不同造成的影响，RHEL5系列的还是使用老版本的sed，没有&#8211;follow-symlinks类似的选项，笔者之前实验的版本是RHEL6.3，所以出现之前的一系列问题了</p>
+
+<p>&#8211;EOF&#8211;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/09/sed/" title="Previous Post: sed远程替换的一个错误">&laquo; sed远程替换的一个错误</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/04/16/snmpd/" title="Next Post: RHEL6修改snmpd日志输出">RHEL6修改snmpd日志输出 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - 枯木 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'kumusanotes';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kumu-Linux.github.io/blog/2013/04/09/sed-link/';
+        var disqus_url = 'http://kumu-Linux.github.io/blog/2013/04/09/sed-link/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

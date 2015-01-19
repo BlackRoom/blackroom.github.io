@@ -5,12 +5,20 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>OPS Notes By 枯木</title>
+  <title>grub install with kvm virtio disk - OPS Notes By 枯木</title>
   <meta name="author" content="枯木">
 
   
-  <meta name="description" content=" Crap!! Looks like the page you&#8217;re looking for doesn&#8217;t exist. Just go home and try again! ">
-  
+  <meta name="description" content="grub-install ERROR: not suitable driver was found First 1
+grub-install /dev/vda Second 1
+2
+3
+4
+5
+# grub
+&gt; device (hd0) /dev/vda
+&gt; root (hd0,0 &hellip;">
+  <meta name="keywords" content="virtio, grub">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +26,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://kumu-Linux.github.io/404.html">
+  <link rel="canonical" href="http://kumu-Linux.github.io/blog/2014/03/26/grub-virtio/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -73,19 +81,99 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
-  <h2>Crap!!</h2>
+  <header>
+    
+      
+        <h1 class="entry-title">Grub Install With Kvm Virtio Disk</h1>
+      
+    
+    
+      <p class="meta">
+        
 
-<p>Looks like the page you&#8217;re looking for doesn&#8217;t exist. Just go <a href="/">home</a> and try again!</p>
+
+
+
+
+
+
 
   
-    <footer>
+
+
+<time datetime="2014-03-26T14:31:00+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>grub-install ERROR: not suitable driver was found</p>
+
+<!--more-->
+
+
+<ul>
+<li>First</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>grub-install /dev/vda
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Second</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># grub</span>
+</span><span class='line'>&gt; device <span class="o">(</span>hd0<span class="o">)</span> /dev/vda
+</span><span class='line'>&gt; root <span class="o">(</span>hd0,0<span class="o">)</span>
+</span><span class='line'>&gt; setup <span class="o">(</span>hd0<span class="o">)</span>
+</span><span class='line'>&gt; quit
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><code>/boot/grub/device.map</code></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">(</span>hd0<span class="o">)</span> /dev/vda
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/24/opennebula-port/" title="Previous Post: ssh X11Forawarding占用OpenNebula kvm端口">&laquo; ssh X11Forawarding占用OpenNebula kvm端口</a>
       
       
-    </footer>
-  
+        <a class="basic-alignment right" href="/blog/2014/04/21/performance-cpu/" title="Next Post: Linux性能优化--CPU[备忘]">Linux性能优化--CPU[备忘] &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 
 </div>
@@ -111,7 +199,10 @@
       var disqus_shortname = 'kumusanotes';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://kumu-Linux.github.io/blog/2014/03/26/grub-virtio/';
+        var disqus_url = 'http://kumu-Linux.github.io/blog/2014/03/26/grub-virtio/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
