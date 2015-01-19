@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
-  <link href="http://yoursite.com/atom.xml" rel="self"/>
-  <link href="http://yoursite.com/"/>
-  <updated>2015-01-19T17:23:55+08:00</updated>
-  <id>http://yoursite.com/</id>
+  <title><![CDATA[BLACKROOM]]></title>
+  <link href="http://www.blackroom.com/atom.xml" rel="self"/>
+  <link href="http://www.blackroom.com/"/>
+  <updated>2015-01-19T17:30:06+08:00</updated>
+  <id>http://www.blackroom.com/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
