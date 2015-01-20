@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-20T14:23:23+08:00</updated>
+  <updated>2015-01-20T14:26:59+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -108,10 +108,13 @@ maxlogins - 此用户允许登录的最大数目
 <p>要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：<br/>
 session required /lib/security/pam_limits.so</p>
 
-<p>例如：修改文件描述符大小(65536)<br/>
-vi  /etc/security/limits.conf<br/>
-    *   soft    nofile  65536<br/>
-    *   hard    nofile  65536</p>
+<p>例如：修改文件描述符大小(65536)</p>
+
+<p>vi  /etc/security/limits.conf</p>
+
+<pre><code>*   soft    nofile  65536  
+*   hard    nofile  65536
+</code></pre>
 ]]></content>
   </entry>
   
