@@ -105,7 +105,7 @@ github使用的博客引擎是Jekyll，octopress也是利用Jekyll引擎来开�
 
 <p><strong>Install git</strong></p>
 
-<p>默认ubuntu14.04已经自带有安装git，如果没有安装git，请自行安装git</p>
+<p>默认ubuntu14.04已经自带有安装git，如果没有安装git，请自行安装<a href="http://git-scm.com/">git</a></p>
 
 <p>查看git的版本</p>
 
@@ -117,7 +117,7 @@ $git version 1.9.1
 
 <p>sudo apt-get install git</p>
 
-<h2>2.octopress安装**</h2>
+<h2>2.octopress安装</h2>
 
 <p>octopress 的安装也比较简单，下载源码后会有Gemfile文件来指示所有依赖，使用bundle即可。</p>
 
@@ -129,16 +129,17 @@ cd octopress
 
 <p><strong>安装octopress</strong></p>
 
-<p>使用bundle自动安装,执行命令bundle install就会自动安装所有octopress及其所有依赖。</p>
+<p>使用bundle自动安装,执行命令<em>bundle install</em>就会自动安装所有octopress及其所有依赖。</p>
 
 <pre><code>bundle install
 </code></pre>
 
 <p>注意： 如果上面的命令执行失败，提示下面的错误：</p>
 
-<p>Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.
-/usr/bin/ruby1.9.1 extconf.rb
-/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require&#8217;: cannot load such file &ndash; mkmf   (LoadError)</p>
+<pre><code>Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.
+/usr/bin/ruby1.9.1 extconf.rb 
+/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf   (LoadError)
+</code></pre>
 
 <p>请执行下面的命令安装ruby1.9.1-dev</p>
 
@@ -161,7 +162,7 @@ cd octopress
 
 <h2>3.octopress配置</h2>
 
-<p>实际上octopress已经很好的隐藏了Jekyll的诸多配置，我们只需要简单操作几个文件。octopress就会自动生成相应的Jekyll配置。这里我们仅仅讲解一下_config.yml文件的部分配置项，具体请看官网Configuring Octopress。</p>
+<p>实际上octopress已经很好的隐藏了Jekyll的诸多配置，我们只需要简单操作几个文件。octopress就会自动生成相应的Jekyll配置。这里我们仅仅讲解一下_config.yml文件的部分配置项，具体请看官网<a href="http://octopress.org/docs/configuring/">Configuring Octopress</a>。</p>
 
 <p>该文件的配置分为三大部分:Main config、Jekyll&amp;Plugin、3rd Party Settings。</p>
 
@@ -180,7 +181,7 @@ category_feeds:     # Enable per category RSS feeds (defaults to false in 2.1)
 email:              # Email address for the RSS feed if you want it.
 </code></pre>
 
-<p>注释说明已经很详细了，有一点需要强调的是，<strong>如果你想启用自己的域名来访问，这里的url务必修改为你自己的域名，否则即便你添加了CNAME文件，使用rake部署的时候也不会部署该CNAME文件。</strong></p>
+<p>注释说明已经很详细了，有一点需要强调的是，<em>如果你想启用自己的域名来访问，这里的url务必修改为你自己的域名，否则即便你添加了CNAME文件，使用rake部署的时候也不会部署该CNAME文件。</em></p>
 
 <p><em>建议：</em></p>
 
@@ -189,7 +190,7 @@ email:              # Email address for the RSS feed if you want it.
 
 <h2>4.部署到github</h2>
 
-<p>github pages支持托管，地址为&#8221;<a href="https://pages.github.com/">https://pages.github.com/</a>&ldquo;。在这个页面你只需要大概了解一下什么事github page，如何申请就行了。</p>
+<p>github pages支持托管，地址为<a href="https://pages.github.com/">https://pages.github.com/</a>。在这个页面你只需要大概了解一下什么事github page，如何申请就行了。</p>
 
 <p>新建一个仓库，名为your_user_name.github.io，当然也可以是project，这个方法有点不一样，这里以your_user_name.github.io为例。</p>
 
@@ -202,19 +203,19 @@ Enter the read/write url for your repository
 Repository url: 
 </code></pre>
 
-<p>生成博客， rake generate 这个会按照既定规则生成静态文件的博客。</p>
+<p>生成博客， <em>rake generate</em> 这个会按照既定规则生成静态文件的博客。</p>
 
 <pre><code>rake generate
 </code></pre>
 
-<p>发布博客， rake deploy 将前一步生成的静态文件拷贝到_deploy目录并push到github</p>
+<p>发布博客， <em>rake deploy</em> 将前一步生成的静态文件拷贝到_deploy目录并push到github</p>
 
 <pre><code>rake deploy
 </code></pre>
 
 <p><strong>注意：</strong></p>
 
-<p>第一次执行 rake deploy 的时候会报错如下：</p>
+<p>第一次执行 <em>rake deploy</em> 的时候会报错如下：</p>
 
 <pre><code>! [rejected]        master -&gt; master (non-fast-forward)
 error: failed to push some refs to 'https://github.com/blackroom/blackroom.github.com.git'
@@ -236,7 +237,7 @@ rake deploy
 
 <p><strong>博客本地预览</strong></p>
 
-<p>如果在部署到仓库之前，需要先预览一下博客，可以在终端输入 <strong>rake preview</strong> 命令，然后就能在浏览器中进行本地预览访问了：&#8221;<a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a>&ldquo;或&#8221;<a href="http://localhost:4000/">http://localhost:4000/</a>&#8220;，效果跟仓库的一样。</p>
+<p>如果在部署到仓库之前，需要先预览一下博客，可以在终端输入 <em>rake preview</em> 命令，然后就能在浏览器中进行本地预览访问了：&#8221;<a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a>&ldquo;或&#8221;<a href="http://localhost:4000/">http://localhost:4000/</a>&#8220;，效果跟仓库的一样。</p>
 
 <pre><code>rake preview
 </code></pre>
@@ -280,7 +281,7 @@ categories:
 - Media Queries
 </code></pre>
 
-<p>除此之外，还支持 author: Your Name 来指明作者，支持 published: false 表明当前博文是草稿暂时不发布。</p>
+<p>除此之外，还支持 <em>author: Your Name</em> 来指明作者，支持 <em>published: false</em> 表明当前博文是草稿暂时不发布。</p>
 
 <p><strong>发布博文完整流程：</strong></p>
 
