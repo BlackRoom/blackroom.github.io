@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[BLACKROOM]]></title>
-  <link href="http://www.blackroom.com/atom.xml" rel="self"/>
-  <link href="http://www.blackroom.com/"/>
-  <updated>2015-01-20T10:02:10+08:00</updated>
-  <id>http://www.blackroom.com/</id>
+  <link href="http://blog.blackroom.com/atom.xml" rel="self"/>
+  <link href="http://blog.blackroom.com/"/>
+  <updated>2015-01-20T10:08:05+08:00</updated>
+  <id>http://blog.blackroom.com/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Nihaodajia]]></title>
-    <link href="http://www.blackroom.com/blog/2015/01/19/nihaodajia/"/>
+    <link href="http://blog.blackroom.com/blog/2015/01/19/nihaodajia/"/>
     <updated>2015-01-19T17:37:11+08:00</updated>
-    <id>http://www.blackroom.com/blog/2015/01/19/nihaodajia</id>
+    <id>http://blog.blackroom.com/blog/2015/01/19/nihaodajia</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
