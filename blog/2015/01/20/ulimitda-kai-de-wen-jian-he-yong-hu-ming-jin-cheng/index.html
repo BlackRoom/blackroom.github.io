@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ulimit打开的文件和用户名进程 - BLACKROOM</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程 vi /etc/sysctl.conf fs.file-max = 65536 vi /etc/security/limits.conf soft nproc 65535 hard nproc 65535 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="BLACKROOM" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">BLACKROOM</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="blog.blackroom.cn">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ulimit打开的文件和用户名进程</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-20T12:13:10+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:13 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程</p>
+
+<!-- more -->
+
+
+<p>vi /etc/sysctl.conf</p>
+
+<p>fs.file-max = 65536</p>
+
+<p>vi /etc/security/limits.conf</p>
+
+<ul>
+<li><pre><code>   soft     nproc          65535
+</code></pre></li>
+<li><pre><code>   hard     nproc          65535
+</code></pre></li>
+<li><pre><code>   soft     nofile         65535
+</code></pre></li>
+<li><pre><code>   hard     nofile         65535
+</code></pre></li>
+</ul>
+
+
+<p>增加linux最大用户进程</p>
+
+<p>Follow the step:</p>
+
+<p>vi /etc/security/limits.conf  and add below the menstioed</p>
+
+<ul>
+<li><pre><code>   soft     nproc          65535
+</code></pre></li>
+<li><pre><code>   hard     nproc          65535
+</code></pre></li>
+<li><pre><code>   soft     nofile         65535
+</code></pre></li>
+<li><pre><code>   hard     nofile         65535
+</code></pre>
+
+<p>and  vi /etc/security/limits.d/90-nproc.conf</p></li>
+<li><pre><code>   soft     nproc          65535
+</code></pre></li>
+<li><pre><code>   hard     nproc          65535
+</code></pre></li>
+<li><pre><code>   soft     nofile         65535
+</code></pre></li>
+<li><pre><code>   hard     nofile         65535
+</code></pre>
+
+<p>save and exit check the user max processes ulimit
+[root@localhost# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 127358
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 65535
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 65535
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited</p></li>
+</ul>
+
+
+<p>After make changes need to reboot system.</p>
+
+<p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。
+　　limits.conf的格式如下：
+　　username|@groupname type resource limit
+　　username|@groupname：设置需要被限制的用户名，组名前面加@和用户名区别。也可以用通配符*来做所有用户的限制。
+　　type：有 soft，hard 和 -，soft 指的是当前系统生效的设置值。hard 表明系统中所能设定的最大值。soft 的限制不能比har 限制高。用 - 就表明同时设置了 soft 和 hard 的值。
+　　resource：
+　　core - 限制内核文件的大小
+　　date - 最大数据大小
+　　fsize - 最大文件大小
+　　memlock - 最大锁定内存地址空间
+　　nofile - 打开文件的最大数目
+　　rss - 最大持久设置大小
+　　stack - 最大栈大小
+　　cpu - 以分钟为单位的最多 CPU 时间
+　　noproc - 进程的最大数目
+　　as - 地址空间限制
+　　maxlogins - 此用户允许登录的最大数目
+　　要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：
+　　session required /lib/security/pam_limits.so</p>
+
+<p>例如：修改文件描述符大小(65536)
+vi  /etc/security/limits.conf</p>
+
+<ul>
+<li><pre><code>                        soft    nofile  65536
+</code></pre></li>
+<li><pre><code>                        hard    nofile  65536
+</code></pre></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-20T12:13:10+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:13 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github/" title="Previous Post: 利用octopress部署博客到github">&laquo; 利用octopress部署博客到github</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/">Ulimit打开的文件和用户名进程</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github/">利用octopress部署博客到github</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
