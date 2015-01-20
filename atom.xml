@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[BLACKROOM]]></title>
-  <link href="http://blog.blackroom.github.io/atom.xml" rel="self"/>
-  <link href="http://blog.blackroom.github.io/"/>
-  <updated>2015-01-20T11:23:41+08:00</updated>
-  <id>http://blog.blackroom.github.io/</id>
+  <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
+  <link href="http://blog.blackroom.cn/"/>
+  <updated>2015-01-20T11:26:58+08:00</updated>
+  <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[利用octopress部署博客到github]]></title>
-    <link href="http://blog.blackroom.github.io/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github/"/>
+    <link href="http://blog.blackroom.cn/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github/"/>
     <updated>2015-01-20T11:01:31+08:00</updated>
-    <id>http://blog.blackroom.github.io/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github</id>
+    <id>http://blog.blackroom.cn/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github</id>
     <content type="html"><![CDATA[<p>这里将详细讲解一下如何利用octopress在github上部署一个博客程序，既方便写博客又无需考虑托管问题，同时天然的在本地有一个备份，所有操作都基于git，有无限版本控制。使用markdown书写具体的博客内容，自带代码高亮解决方案。</p>
 
 <p> <!-- more -->
