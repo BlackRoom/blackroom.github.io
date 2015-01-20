@@ -7,8 +7,8 @@ categories:
 ---
 这里将详细讲解一下如何利用octopress在github上部署一个博客程序，既方便写博客又无需考虑托管问题，同时天然的在本地有一个备份，所有操作都基于git，有无限版本控制。使用markdown书写具体的博客内容，自带代码高亮解决方案。
 
+ <!-- more -->
 github使用的博客引擎是Jekyll，octopress也是利用Jekyll引擎来开发博客的，因此生成的博客系统可以直接在github pages上运行良好。
-后续博客以github平台为主，访问地址为http://blog.itzhoulin.com,以前的博文也会慢慢挑一些迁过去
 
 环境说明:
 
@@ -42,18 +42,18 @@ bundle可以自动解决依赖，安装方法如下：
 gem install bundler
 建议国内用户切换gem源为国内源，方法如下：
 
-#删除官方源
+删除官方源
 gem source -r https://rubygems.org/
-#添加淘宝源
+添加淘宝源
 gem source -a http://ruby.taobao.org/
-#查看当前源
+查看当前源
 gem source -l
 安装git
 
 如果已经安装git，执行命令返回值为具体版本，否则请自行安装git
 
 git --version
-#git version 1.9.1
+git version 1.9.1
 2.octopress安装
 
 octopress 的安装也比较简单，下载源码后会有Gemfile文件来指示所有依赖，使用bundle即可。
@@ -117,7 +117,7 @@ email:              # Email address for the RSS feed if you want it.
 
 4.部署到github
 
-github pages支持托管，地址为https://pages.github.com/。在这个页面你只需要大概了解一下什么事github page，如何申请就行了。
+github pages支持托管，地址为'https://pages.github.com/'。在这个页面你只需要大概了解一下什么事github page，如何申请就行了。
 
 新建一个仓库，名为your_user_name.github.io或organization.github.io，当然也可以是project，这个方法有点不一样，这里以your_user_name.github.io为例。
 在octopress根目录执行 rake setup_github_pages ，按照要求输入仓库地址等，这个命令会在跟目录下新建_deploy目录，这个会push到仓库的master分支，也就是访问博客的文件。
@@ -128,7 +128,7 @@ github pages支持托管，地址为https://pages.github.com/。在这个页面�
 第一次执行 rake deploy 的时候会报错如下：
 
 ! [rejected]        master -> master (non-fast-forward)
-error: failed to push some refs to 'https://github.com/yeesterbunny/yeesterbunny.github.com.git'
+error: failed to push some refs to 'https://github.com/blackroom/blackroom.github.com.git'
 hint: Updates were rejected because the tip of your current branch is behind
 hint: its remote counterpart. Merge the remote changes (e.g. 'git pull')
 hint: before pushing again.
@@ -143,7 +143,7 @@ rake deploy
 
 博客本地预览
 
-如果在部署到仓库之前，需要先预览一下博客，可以在终端输入 rake preview 命令，然后就能在浏览器中进行本地预览访问了： http://127.0.0.1:4000/或http://localhost:4000/，效果跟仓库中的一样。
+如果在部署到仓库之前，需要先预览一下博客，可以在终端输入 rake preview 命令，然后就能在浏览器中进行本地预览访问了：' http://127.0.0.1:4000/'或'http://localhost:4000/'，效果跟仓库的一样。
 
 提交源码用于备份
 
@@ -167,21 +167,21 @@ categories:
 ---
 这里的categories是自定义的分类名，支持的定义方式如下：
 
-# One category
+ One category
 categories: Sass
-# Multiple categories example 1
+ Multiple categories example 1
 categories: [CSS3, Sass, Media Queries]
-# Multiple categories example 2
+ Multiple categories example 2
 categories:
-- CSS3
-- Sass
-- Media Queries
+ CSS3
+ Sass
+ Media Queries
 除此之外，还支持 author: Your Name 来指明作者，支持 published: false 表明当前博文是草稿暂时不发布。
 
 发布博文完整流程：
 
 rake new_post["New Post"]
-#edit the file source/_posts/{DATETIME}-New-Post.markdown
+edit the file source/_posts/{DATETIME}-New-Post.markdown
 rake generate
 git add .
 git commit -am "Some comment here." 
@@ -192,10 +192,10 @@ rake deploy
 你可以在博客源目录下任意地方添加页面，Jekyll会自动拼接，对应的url地址也会根据页面路径自动生成 ，如果要添加 about.markdown ，那么就会生成 site.com/about.html ，如果你想要的url地址是 site.com/about/ ,你需要新建的页面应该是 about/index.markdown .同样的，octopress也有脚本完成这个操作。
 
 rake new_page[super-awesome]
-# creates /source/super-awesome/index.markdown
+ creates /source/super-awesome/index.markdown
 
 rake new_page[super-awesome/page.html]
-# creates /source/super-awesome/page.html
+ creates /source/super-awesome/page.html
 像发布博文一样，默认后缀依然是markdown，但是你可以再Rakefile中修改这个默认配置；一个干净的页面文件如下：
 
 ---
@@ -214,5 +214,5 @@ footer: true
 
 默认首页是显示全文，要想仅仅显示摘要，请在合适的地方插入下面的代码
 
- <!-- more -->
+
 这个会生成一个”Continue →” 链接来指向完整博文，这个跟wordpress的一样。
