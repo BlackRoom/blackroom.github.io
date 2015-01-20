@@ -9,7 +9,8 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程 vi /etc/sysctl.conf fs.file-max = 65536 vi /etc/security/limits.conf * soft nproc 65535 * hard nproc 65535 &hellip;">
+  <meta name="description" content="如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程 vi /etc/sysctl.conf fs.file-max = 65536 vi /etc/security/limits.conf * soft nproc 65535
+* hard nproc 65535 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,30 +79,42 @@
 <!-- more -->
 
 
-<p>vi /etc/sysctl.conf
-    fs.file-max = 65536</p>
+<p>vi /etc/sysctl.conf</p>
 
-<p>vi /etc/security/limits.conf
-    *          soft     nproc          65535
-    *          hard     nproc          65535
-    *          soft     nofile         65535
-    *          hard     nofile         65535</p>
+<pre><code>fs.file-max = 65536
+</code></pre>
 
-<p>增加linux最大用户进程
-vi /etc/security/limits.conf
-    *   soft    nproc   65535
-    *   hard    nproc   65535
-    *   soft    nofile  65535
-    *   hard    nofile  65535
-增加linux针对用户的最大进程文件的限制
-vi /etc/security/limits.d/90-nproc.conf
-    *   soft    nproc   65535
-    *   hard    nproc   65535
-    *   soft    nofile  65535
-    *   hard    nofile  65535</p>
+<p>vi /etc/security/limits.conf</p>
 
-<p>保存并退出查看linux用户最大进程或文件句柄限制
-[root@localhost# ulimit -a</p>
+<pre><code>*          soft     nproc          65535
+*          hard     nproc          65535
+*          soft     nofile         65535
+*          hard     nofile         65535
+</code></pre>
+
+<p>增加linux最大用户进程</p>
+
+<p>vi /etc/security/limits.conf</p>
+
+<pre><code>*   soft    nproc   65535
+*   hard    nproc   65535
+*   soft    nofile  65535
+*   hard    nofile  65535
+</code></pre>
+
+<p>增加linux针对用户的最大进程文件的限制</p>
+
+<p>vi /etc/security/limits.d/90-nproc.conf</p>
+
+<pre><code>*   soft    nproc   65535
+*   hard    nproc   65535
+*   soft    nofile  65535
+*   hard    nofile  65535
+</code></pre>
+
+<p>保存并退出查看linux用户最大进程或文件句柄限制</p>
+
+<p>[root@localhost# ulimit -a</p>
 
 <pre><code>core file size          (blocks, -c) 0
 data seg size           (kbytes, -d) unlimited
@@ -123,17 +136,18 @@ file locks                      (-x) unlimited
 
 <p>如果没有更改重启系统即可</p>
 
-<p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。
-limits.conf的格式如下：
-username|@groupname type resource limit
-username|@groupname：
-设置需要被限制的用户名，组名前面加@和用户名区别，也可以用通配符*来做所有用户的限制。
-type：有 soft，hard 和 -，soft 指的是当前系统生效的设置值。
-hard 表明系统中所能设定的最大值。
-soft 的限制不能比har 限制高。
+<p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。<br/>
+limits.conf的格式如下：<br/>
+username|@groupname type resource limit<br/>
+username|@groupname：</p>
+
+<p>设置需要被限制的用户名，组名前面加@和用户名区别，也可以用通配符*来做所有用户的限制。
+type：有 soft，hard 和 -，soft 指的是当前系统生效的设置值。<br/>
+hard 表明系统中所能设定的最大值。<br/>
+soft 的限制不能比har 限制高。<br/>
 用 - 就表明同时设置了 soft 和 hard 的值。</p>
 
-<p>resource：
+<pre><code>resource：
 core - 限制内核文件的大小
 date - 最大数据大小
 fsize - 最大文件大小
@@ -144,14 +158,15 @@ stack - 最大栈大小
 cpu - 以分钟为单位的最多 CPU 时间
 noproc - 进程的最大数目
 as - 地址空间限制
-maxlogins - 此用户允许登录的最大数目</p>
+maxlogins - 此用户允许登录的最大数目
+</code></pre>
 
-<p>要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：
+<p>要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：<br/>
 session required /lib/security/pam_limits.so</p>
 
-<p>例如：修改文件描述符大小(65536)
-vi  /etc/security/limits.conf
-    *   soft    nofile  65536
+<p>例如：修改文件描述符大小(65536)<br/>
+vi  /etc/security/limits.conf<br/>
+    *   soft    nofile  65536<br/>
     *   hard    nofile  65536</p>
 </div>
 
