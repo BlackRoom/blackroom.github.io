@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[BLACKROOM]]></title>
-  <link href="http://blackroom.github.io/atom.xml" rel="self"/>
-  <link href="http://blackroom.github.io/"/>
-  <updated>2015-01-20T13:10:49+08:00</updated>
-  <id>http://blackroom.github.io/</id>
+  <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
+  <link href="http://blog.blackroom.cn/"/>
+  <updated>2015-01-20T13:21:18+08:00</updated>
+  <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Ulimit打开的文件和用户名进程]]></title>
-    <link href="http://blackroom.github.io/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/"/>
+    <link href="http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/"/>
     <updated>2015-01-20T12:13:10+08:00</updated>
-    <id>http://blackroom.github.io/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng</id>
+    <id>http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng</id>
     <content type="html"><![CDATA[<p>如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程</p>
 
 <!-- more -->
@@ -91,33 +91,31 @@ file locks                      (-x) unlimited</p></li>
 <p>After make changes need to reboot system.</p>
 
 <p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。
-　　limits.conf的格式如下：
-　　username|@groupname type resource limit
-　　username|@groupname：设置需要被限制的用户名，组名前面加@和用户名区别。也可以用通配符*来做所有用户的限制。
-　　type：有 soft，hard 和 -，soft 指的是当前系统生效的设置值。hard 表明系统中所能设定的最大值。soft 的限制不能比har 限制高。用 - 就表明同时设置了 soft 和 hard 的值。
-　　resource：
-　　core - 限制内核文件的大小
-　　date - 最大数据大小
-　　fsize - 最大文件大小
-　　memlock - 最大锁定内存地址空间
-　　nofile - 打开文件的最大数目
-　　rss - 最大持久设置大小
-　　stack - 最大栈大小
-　　cpu - 以分钟为单位的最多 CPU 时间
-　　noproc - 进程的最大数目
-　　as - 地址空间限制
-　　maxlogins - 此用户允许登录的最大数目
-　　要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：
-　　session required /lib/security/pam_limits.so</p>
+limits.conf的格式如下：
+username|@groupname type resource limit
+username|@groupname：设置需要被限制的用户名，组名前面加@和用户名区别。也可以用通配符*来做所有用户的限制。
+type：有 soft，hard 和 -，soft 指的是当前系统生效的设置值。hard 表明系统中所能设定的最大值。soft 的限制不能比har 限制高。用 - 就表明同时设置了 soft 和 hard 的值。
+resource：
+core - 限制内核文件的大小
+date - 最大数据大小
+fsize - 最大文件大小
+memlock - 最大锁定内存地址空间
+nofile - 打开文件的最大数目
+rss - 最大持久设置大小
+stack - 最大栈大小
+cpu - 以分钟为单位的最多 CPU 时间
+noproc - 进程的最大数目
+as - 地址空间限制
+maxlogins - 此用户允许登录的最大数目
+要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：
+session required /lib/security/pam_limits.so</p>
 
 <p>例如：修改文件描述符大小(65536)
 vi  /etc/security/limits.conf</p>
 
 <ul>
-<li><pre><code>                        soft    nofile  65536
-</code></pre></li>
-<li><pre><code>                        hard    nofile  65536
-</code></pre></li>
+<li>soft    nofile  65536</li>
+<li>hard    nofile  65536</li>
 </ul>
 
 ]]></content>
@@ -125,9 +123,9 @@ vi  /etc/security/limits.conf</p>
   
   <entry>
     <title type="html"><![CDATA[利用octopress部署博客到github]]></title>
-    <link href="http://blackroom.github.io/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github/"/>
+    <link href="http://blog.blackroom.cn/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github/"/>
     <updated>2015-01-20T11:01:31+08:00</updated>
-    <id>http://blackroom.github.io/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github</id>
+    <id>http://blog.blackroom.cn/blog/2015/01/20/li-yong-octopressbu-shu-bo-ke-dao-github</id>
     <content type="html"><![CDATA[<p>这里将详细讲解一下如何利用octopress在github上部署一个博客程序，既方便写博客又无需考虑托管问题，同时天然的在本地有一个备份，所有操作都基于git，有无限版本控制。使用markdown书写具体的博客内容，自带代码高亮解决方案。</p>
 
 <p> <!-- more -->
