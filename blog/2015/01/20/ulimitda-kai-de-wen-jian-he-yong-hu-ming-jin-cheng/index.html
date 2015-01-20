@@ -9,7 +9,8 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程 vi /etc/sysctl.conf fs.file-max = 65536 vi /etc/security/limits.conf soft nproc 65535 hard nproc 65535 &hellip;">
+  <meta name="description" content="如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程 vi /etc/sysctl.conf fs.file-max = 65536 vi /etc/security/limits.conf -* soft nproc 65535
+-* hard nproc &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,17 +85,10 @@
 
 <p>vi /etc/security/limits.conf</p>
 
-<blockquote><ul>
-<li><pre><code>   soft     nproc          65535
-</code></pre></li>
-<li><pre><code>   hard     nproc          65535
-</code></pre></li>
-<li><pre><code>   soft     nofile         65535
-</code></pre></li>
-<li><pre><code>   hard     nofile         65535
-</code></pre></li>
-</ul>
-</blockquote>
+<p>-*          soft     nproc          65535
+-*          hard     nproc          65535
+-*          soft     nofile         65535
+-*          hard     nofile         65535</p>
 
 <p>增加linux最大用户进程</p>
 
@@ -102,29 +96,20 @@
 
 <p>vi /etc/security/limits.conf  and add below the menstioed</p>
 
-<ul>
-<li><pre><code>   soft     nproc          65535
-</code></pre></li>
-<li><pre><code>   hard     nproc          65535
-</code></pre></li>
-<li><pre><code>   soft     nofile         65535
-</code></pre></li>
-<li><pre><code>   hard     nofile         65535
-</code></pre>
+<p>-*          soft     nproc          65535
+-*          hard     nproc          65535
+-*          soft     nofile         65535
+-*          hard     nofile         65535
+and  vi /etc/security/limits.d/90-nproc.conf</p>
 
-<p>and  vi /etc/security/limits.d/90-nproc.conf</p></li>
-<li><pre><code>   soft     nproc          65535
-</code></pre></li>
-<li><pre><code>   hard     nproc          65535
-</code></pre></li>
-<li><pre><code>   soft     nofile         65535
-</code></pre></li>
-<li><pre><code>   hard     nofile         65535
-</code></pre>
+<p>-*          soft     nproc          65535
+-*          hard     nproc          65535
+-*          soft     nofile         65535
+-*          hard     nofile         65535
+save and exit check the user max processes ulimit
+[root@localhost# ulimit -a</p>
 
-<p>save and exit check the user max processes ulimit
-[root@localhost# ulimit -a
-core file size          (blocks, -c) 0
+<pre><code>core file size          (blocks, -c) 0
 data seg size           (kbytes, -d) unlimited
 scheduling priority             (-e) 0
 file size               (blocks, -f) unlimited
@@ -139,9 +124,8 @@ stack size              (kbytes, -s) 10240
 cpu time               (seconds, -t) unlimited
 max user processes              (-u) 65535
 virtual memory          (kbytes, -v) unlimited
-file locks                      (-x) unlimited</p></li>
-</ul>
-
+file locks                      (-x) unlimited
+</code></pre>
 
 <p>After make changes need to reboot system.</p>
 
