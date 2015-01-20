@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Markdown: Basics （快速入门） Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。 段落、标题、区块代码 一个段落是由一个以上的连接的行句组成，而一个以上的空行则会划分出不同的段落（空行的定义是显示上看起来像是空行，就被视为空行，例如有一行只有空白和 &hellip;">
+  <meta name="description" content="Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,187 +76,14 @@
   </header>
 
 
-  <div class="entry-content"><h2>Markdown: Basics （快速入门）</h2>
+  <div class="entry-content"><p>Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。</p>
 
-<p>Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。</p>
-
-<h2>段落、标题、区块代码</h2>
-
-<p>一个段落是由一个以上的连接的行句组成，而一个以上的空行则会划分出不同的段落（空行的定义是显示上看起来像是空行，就被视为空行，例如有一行只有空白和 tab，那该行也会被视为空行），一般的段落不需要用空白或换行缩进。</p>
-
-<p>单个回车视为空格。连续回车才能分段。行尾加两个空格，即可段内换行。</p>
-
-<p>Markdown 支持两种标题的语法，Setext 和 atx 形式。<br/>
-Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题）。</p>
-
-<h1>第一阶标题\=======</h1>
-
-<h2>第二阶标题-&mdash;&mdash;</h2>
-
-<p>Atx 形式在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶。</p>
-
-<h1>第一阶标题#</h1>
-
-<h2>第二阶标题\</h2>
-
-<h3>第三阶标题\</h3>
-
-<p>……</p>
-
-<h6>第六阶标题\</h6>
-
-<p>区块引用则使用 email 形式的 &lsquo;>&rsquo; 角括号。</p>
-
-<blockquote><p>此处是区块引用></p></blockquote>
-
-<h2>修辞和强调</h2>
-
-<p>Markdown 使用星号和底线来标记需要强调的区段。</p>
-
-<p>*首尾各一个*号这些文字显示为斜体 *文字*</p>
-
-<p><strong>首尾各两个*这些文字显示为粗体</strong> *<em>文字*</em></p>
-
-<p><strong><em>首尾各三个*这些文字显示为斜体加粗体</em></strong> *<strong>文字*</strong></p>
-
-<p><em>首尾使用底线强调区段</em> _文字_</p>
-
-<h2>列表</h2>
-
-<p>无序列表使用星号、加号和减号来做为列表的项目标记，这些符号是都可以使用的.</p>
-
-<p>星号：</p>
-
-<ul>
-<li>Candy.</li>
-<li>Gum.</li>
-<li>Booze.</li>
-</ul>
-
-
-<p>加号：</p>
-
-<ul>
-<li>Candy.</li>
-<li>Gum.</li>
-<li>Booze.</li>
-</ul>
-
-
-<p>和减号：</p>
-
-<ul>
-<li>Candy.</li>
-<li>Gum.</li>
-<li>Booze.</li>
-</ul>
-
-
-<p>有序的列表则是使用一般的数字接着一个英文句点作为项目标记：</p>
-
-<ol>
-<li>Red</li>
-<li>Green</li>
-<li>Blue</li>
-</ol>
-
-
-<p>如果你在项目之间插入空行，那项目的内容会用 <p> 包起来，你也可以在一个项目内放上多个段落，只要在它前面缩排 4 个空白或 1 个 tab 。</p>
-
-<hr />
-
-<pre><code>---
-上面是一条横线
-</code></pre>
-
-<p>两个列表之间不能相邻，否则会解释为嵌套的列表</p>
-
-<pre><code>- 外层列表项目
- + 内层列表项目
- + 内层无序列表项目##链接
- + 内层列表项目
-- 外层列表
-</code></pre>
-
-<p>项目Markdown 支援两种形式的链接语法： 行内 和 参考 两种形式，两种都是使用角括号来把文字转成连结。</p>
-
-<p>行内形式是直接在后面用括号直接接上链接：</p>
-
-<pre><code>This is an [example link](http://example.com/).
-</code></pre>
-
-<p>This is an <a href="http://example.com/">example link</a>.</p>
-
-<p>你也可以选择性的加上 title 属性</p>
-
-<pre><code>This is an [example link](http://example.com/ "With a Title").
-</code></pre>
-
-<p>This is an <a href="http://example.com/" title="With a Title">example link</a>.</p>
-
-<p>参考形式的链接让你可以为链接定一个名称，之后你可以在文件的其他地方定义该链接的内容：</p>
-
-<pre><code>I get 10 times more traffic from [Google][1] than from
-[Yahoo][2] or [MSN][3].
-
-[1]: http://google.com/ "Google"
-[2]: http://search.yahoo.com/ "Yahoo Search"
-[3]: http://search.msn.com/ "MSN Search"
-</code></pre>
-
-<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from
-<a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>
-
-<p>title 属性是选择性的，链接名称可以用字母、数字和空格，但是不分大小写：</p>
-
-<pre><code>I start my morning with a cup of coffee and
-[The New York Times][NY Times].
-
-[ny times]: http://www.nytimes.com/
-</code></pre>
-
-<p>I start my morning with a cup of coffee and
-<a href="http://www.nytimes.com/">The New York Times</a>.</p>
-
-<h2>图片</h2>
-
-<p>图片的语法和链接很像。</p>
-
-<p>行内形式（title 是选择性的）：</p>
-
-<pre><code>![alt text](/path/to/img.jpg "Title")
-</code></pre>
-
-<p>参考形式：</p>
-
-<pre><code>![alt text][id]
-
-[id]: /path/to/img.jpg "Title"
-</code></pre>
-
-<h2>代码</h2>
-
-<p>在一般的段落文字中，你可以使用反引号 ` 来标记代码区段，区段内的 &amp;、&lt; 和 > 都会被自动的转换成 HTML 实体，这项特性让你可以很容易的在代码区段内插入 HTML 码：</p>
-
-<pre><code>I strongly recommend against using any `&lt;blink&gt;` tags.
-
-I wish SmartyPants used named entities like `&amp;mdash;`
-instead of decimal-encoded entites like `&amp;#8212;`.
-</code></pre>
-
-<p>如果要建立一个已经格式化好的代码区块，只要每行都缩进 4 个空格或是一个 tab 就可以了，而 &amp;、&lt; 和 > 也一样会自动转成 HTML 实体。</p>
-
-<p>Markdown 语法:</p>
-
-<pre><code>If you want your page to validate under XHTML 1.0 Strict,
-you've got to put paragraph tags in your blockquotes:
-
-&lt;blockquote&gt;
-&lt;p&gt;For example.&lt;/p&gt;
-&lt;/blockquote&gt;
-</code></pre>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)/">Read on &rarr;</a>
+    </footer>
   
 
 

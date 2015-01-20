@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-20T17:07:27+08:00</updated>
+  <updated>2015-01-20T17:20:22+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -18,9 +18,10 @@
     <link href="http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)/"/>
     <updated>2015-01-20T17:06:26+08:00</updated>
     <id>http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)</id>
-    <content type="html"><![CDATA[<h2>Markdown: Basics （快速入门）</h2>
+    <content type="html"><![CDATA[<p>Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。</p>
 
-<p>Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。</p>
+<!-- more -->
+
 
 <h2>段落、标题、区块代码</h2>
 
@@ -31,23 +32,44 @@
 <p>Markdown 支持两种标题的语法，Setext 和 atx 形式。<br/>
 Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题）。</p>
 
-<h1>第一阶标题\=======</h1>
+<pre><code>第一阶标题
+===========
+</code></pre>
 
-<h2>第二阶标题-&mdash;&mdash;</h2>
+<h1>第一阶标题</h1>
+
+<pre><code>第二阶标题
+----------
+</code></pre>
+
+<h2>第二阶标题</h2>
 
 <p>Atx 形式在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶。</p>
 
-<h1>第一阶标题#</h1>
+<pre><code>#第一阶标题  
+</code></pre>
 
-<h2>第二阶标题\</h2>
+<h1>第一阶标题</h1>
 
-<h3>第三阶标题\</h3>
+<pre><code>##第二阶标题  
+</code></pre>
 
-<p>……</p>
+<h2>第二阶标题</h2>
+
+<pre><code>###第三阶标题  
+</code></pre>
+
+<h3>第三阶标题</h3>
+
+<p>……
+    ######第六阶标题</p>
 
 <h6>第六阶标题\</h6>
 
 <p>区块引用则使用 email 形式的 &lsquo;>&rsquo; 角括号。</p>
+
+<pre><code>&gt; 此处是区块引用\&gt;  
+</code></pre>
 
 <blockquote><p>此处是区块引用></p></blockquote>
 
@@ -55,13 +77,25 @@ Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第�
 
 <p>Markdown 使用星号和底线来标记需要强调的区段。</p>
 
-<p>*首尾各一个*号这些文字显示为斜体 *文字*</p>
+<pre><code>*首尾各一个*号这些文字显示为斜体*  
+</code></pre>
 
-<p><strong>首尾各两个*这些文字显示为粗体</strong> *<em>文字*</em></p>
+<p><em>首尾各一个星号这些文字显示为斜体</em></p>
 
-<p><strong><em>首尾各三个*这些文字显示为斜体加粗体</em></strong> *<strong>文字*</strong></p>
+<pre><code>**首尾各两个*号这些文字显示为粗体**  
+</code></pre>
 
-<p><em>首尾使用底线强调区段</em> _文字_</p>
+<p><strong>首尾各两个星号这些文字显示为粗体</strong></p>
+
+<pre><code>***首尾各三个*这些文字显示为斜体加粗体***  
+</code></pre>
+
+<p><strong><em>首尾各三个星号这些文字显示为斜体加粗体</em></strong></p>
+
+<pre><code>_首尾使用底线强调区段_  
+</code></pre>
+
+<p><em>首尾使用底线强调区段</em></p>
 
 <h2>列表</h2>
 
@@ -70,9 +104,9 @@ Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第�
 <p>星号：</p>
 
 <ul>
-<li>Candy.</li>
-<li>Gum.</li>
-<li>Booze.</li>
+<li>Candy.    * Candy.</li>
+<li>Gum.  * Gum.</li>
+<li>Booze.    * Booze.</li>
 </ul>
 
 
