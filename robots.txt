@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://blog.blackroom.cn/sitemap.xml 
+Sitemap: http://blackroom.github.io/sitemap.xml 
