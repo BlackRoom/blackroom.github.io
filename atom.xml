@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-20T14:26:59+08:00</updated>
+  <updated>2015-01-20T14:32:43+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -26,14 +26,6 @@
 <p>vi /etc/sysctl.conf</p>
 
 <pre><code>fs.file-max = 65536
-</code></pre>
-
-<p>vi /etc/security/limits.conf</p>
-
-<pre><code>*          soft     nproc          65535
-*          hard     nproc          65535
-*          soft     nofile         65535
-*          hard     nofile         65535
 </code></pre>
 
 <p>增加linux最大用户进程</p>
@@ -80,15 +72,17 @@ file locks                      (-x) unlimited
 
 <p>如果没有更改重启系统即可</p>
 
-<p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。<br/>
-limits.conf的格式如下：<br/>
+<p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。</p>
+
+<p>limits.conf的格式如下：<br/>
 username|@groupname type resource limit<br/>
 username|@groupname：</p>
 
 <p>设置需要被限制的用户名，组名前面加@和用户名区别，也可以用通配符*来做所有用户的限制。
-type：有 soft，hard 和 -，soft 指的是当前系统生效的设置值。<br/>
+type：有 soft，hard 和 -，<br/>
+soft 指的是当前系统生效的设置值。<br/>
 hard 表明系统中所能设定的最大值。<br/>
-soft 的限制不能比har 限制高。<br/>
+soft 的限制不能比hard 限制高。<br/>
 用 - 就表明同时设置了 soft 和 hard 的值。</p>
 
 <pre><code>resource：
