@@ -84,7 +84,7 @@
 
 <p>vi /etc/security/limits.conf</p>
 
-<ul>
+<blockquote><ul>
 <li><pre><code>   soft     nproc          65535
 </code></pre></li>
 <li><pre><code>   hard     nproc          65535
@@ -94,7 +94,7 @@
 <li><pre><code>   hard     nofile         65535
 </code></pre></li>
 </ul>
-
+</blockquote>
 
 <p>增加linux最大用户进程</p>
 
@@ -168,11 +168,8 @@ session required /lib/security/pam_limits.so</p>
 <p>例如：修改文件描述符大小(65536)
 vi  /etc/security/limits.conf</p>
 
-<ul>
-<li>soft    nofile  65536</li>
-<li>hard    nofile  65536</li>
-</ul>
-
+<blockquote><p>* soft    nofile  65536
+* hard    nofile  65536</p></blockquote>
 </div>
 
 
