@@ -181,14 +181,11 @@ category_feeds:     # Enable per category RSS feeds (defaults to false in 2.1)
 email:              # Email address for the RSS feed if you want it.
 </code></pre>
 
-<p>注释说明已经很详细了，有一点需要强调的是，<em>如果你想启用自己的域名来访问，这里的url务必修改为你自己的域名，否则即便你添加了CNAME文件，使用rake部署的时候也不会部署该CNAME文件。</em></p>
+<p>注释说明已经很详细了，有一点需要强调的是，<strong><em>如果你想启用自己的域名来访问，这里的url务必修改为你自己的域名，否则即便你添加了CNAME文件，使用rake部署的时候也不会部署该CNAME文件。</em></strong></p>
 
 <p><em>建议：</em></p>
 
-<ul>
-<li>最好把里面的twitter相关的信息全部删掉，否则由于GFW的原因，将会造成页面load很慢。涉及到的文件比较多，小心删除，如果以发表博客，_deploy目录下无需手动删除，重新生成博客后会自动删除。同理，修改定制文件/source/<em>includes/custom/head.html, source/</em>includes/head.html把google的自定义字体去掉。</li>
-</ul>
-
+<blockquote><p>最好把里面的twitter相关的信息全部删掉，否则由于GFW的原因，将会造成页面load很慢。涉及到的文件比较多，小心删除，如果以发表博客，_deploy目录下无需手动删除，重新生成博客后会自动删除。同理，修改定制文件/source/<em>includes/custom/head.html, source/</em>includes/head.html把google的自定义字体去掉。</p></blockquote>
 
 <h2>4.部署到github</h2>
 
