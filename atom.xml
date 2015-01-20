@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-20T13:56:23+08:00</updated>
+  <updated>2015-01-20T13:59:32+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -29,10 +29,10 @@
 
 <p>vi /etc/security/limits.conf</p>
 
-<pre><code>\*          soft     nproc          65535
-\*          hard     nproc          65535
-\*          soft     nofile         65535
-\*          hard     nofile         65535
+<pre><code>*          soft     nproc          65535
+*          hard     nproc          65535
+*          soft     nofile         65535
+*          hard     nofile         65535
 </code></pre>
 
 <p>增加linux最大用户进程</p>
