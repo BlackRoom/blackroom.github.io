@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-20T17:45:40+08:00</updated>
+  <updated>2015-01-20T17:48:39+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -14,9 +14,108 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Ulimit打开的文件和用户名进程]]></title>
+    <link href="http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/"/>
+    <updated>2015-01-20T16:13:10+08:00</updated>
+    <id>http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng</id>
+    <content type="html"><![CDATA[<p>如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程</p>
+
+<!-- more -->
+
+
+<p>vi /etc/sysctl.conf</p>
+
+<pre><code>fs.file-max = 65536
+</code></pre>
+
+<p>增加linux最大用户进程</p>
+
+<p>vi /etc/security/limits.conf</p>
+
+<pre><code>*   soft    nproc   65535
+*   hard    nproc   65535
+*   soft    nofile  65535
+*   hard    nofile  65535
+</code></pre>
+
+<p>增加linux针对用户的最大进程文件的限制</p>
+
+<p>vi /etc/security/limits.d/90-nproc.conf</p>
+
+<pre><code>*   soft    nproc   65535
+*   hard    nproc   65535
+*   soft    nofile  65535
+*   hard    nofile  65535
+</code></pre>
+
+<p>保存并退出查看linux用户最大进程或文件句柄限制</p>
+
+<p>[root@localhost# ulimit -a</p>
+
+<pre><code>core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 127358
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 65535
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 65535
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre>
+
+<p>如果没有更改重启系统即可</p>
+
+<p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。</p>
+
+<p>limits.conf的格式如下：<br/>
+username|@groupname type resource limit<br/>
+username|@groupname：</p>
+
+<p>设置需要被限制的用户名，组名前面加@和用户名区别，也可以用通配符*来做所有用户的限制。
+type：有 soft，hard 和 -，<br/>
+soft 指的是当前系统生效的设置值。<br/>
+hard 表明系统中所能设定的最大值。<br/>
+soft 的限制不能比hard 限制高。<br/>
+用 - 就表明同时设置了 soft 和 hard 的值。</p>
+
+<pre><code>resource：
+core - 限制内核文件的大小
+date - 最大数据大小
+fsize - 最大文件大小
+memlock - 最大锁定内存地址空间
+nofile - 打开文件的最大数目
+rss - 最大持久设置大小
+stack - 最大栈大小
+cpu - 以分钟为单位的最多 CPU 时间
+noproc - 进程的最大数目
+as - 地址空间限制
+maxlogins - 此用户允许登录的最大数目
+</code></pre>
+
+<p>要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：<br/>
+session required /lib/security/pam_limits.so</p>
+
+<p>例如：修改文件描述符大小(65536)</p>
+
+<p>vi  /etc/security/limits.conf</p>
+
+<pre><code>*   soft    nofile  65536  
+*   hard    nofile  65536
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Markdown: 基础 （快速入门）]]></title>
     <link href="http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)/"/>
-    <updated>2015-01-20T17:06:26+08:00</updated>
+    <updated>2015-01-20T13:06:26+08:00</updated>
     <id>http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)</id>
     <content type="html"><![CDATA[<p>Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。</p>
 
@@ -31,7 +130,7 @@
 
 <p>显示如下代码框只需要在文字前面添加四个空格或者是一个<code>&lt;tab&gt;</code>即可</p>
 
-<pre><code>显示如下代码框只需要在文字前面添加四个空格或者是一个tab即可
+<pre><code>显示当前代码框只需要在文字前面添加四个空格或者是一个tab即可
 </code></pre>
 
 <p>Markdown 支持两种标题的语法，Setext 和 atx 形式。<br/>
@@ -283,105 +382,6 @@ you&rsquo;ve got to put paragraph tags in your blockquotes:</p>
 <p>For example.</p>
 </blockquote>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ulimit打开的文件和用户名进程]]></title>
-    <link href="http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/"/>
-    <updated>2015-01-20T12:13:10+08:00</updated>
-    <id>http://blog.blackroom.cn/blog/2015/01/20/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng</id>
-    <content type="html"><![CDATA[<p>如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程</p>
-
-<!-- more -->
-
-
-<p>vi /etc/sysctl.conf</p>
-
-<pre><code>fs.file-max = 65536
-</code></pre>
-
-<p>增加linux最大用户进程</p>
-
-<p>vi /etc/security/limits.conf</p>
-
-<pre><code>*   soft    nproc   65535
-*   hard    nproc   65535
-*   soft    nofile  65535
-*   hard    nofile  65535
-</code></pre>
-
-<p>增加linux针对用户的最大进程文件的限制</p>
-
-<p>vi /etc/security/limits.d/90-nproc.conf</p>
-
-<pre><code>*   soft    nproc   65535
-*   hard    nproc   65535
-*   soft    nofile  65535
-*   hard    nofile  65535
-</code></pre>
-
-<p>保存并退出查看linux用户最大进程或文件句柄限制</p>
-
-<p>[root@localhost# ulimit -a</p>
-
-<pre><code>core file size          (blocks, -c) 0
-data seg size           (kbytes, -d) unlimited
-scheduling priority             (-e) 0
-file size               (blocks, -f) unlimited
-pending signals                 (-i) 127358
-max locked memory       (kbytes, -l) 64
-max memory size         (kbytes, -m) unlimited
-open files                      (-n) 65535
-pipe size            (512 bytes, -p) 8
-POSIX message queues     (bytes, -q) 819200
-real-time priority              (-r) 0
-stack size              (kbytes, -s) 10240
-cpu time               (seconds, -t) unlimited
-max user processes              (-u) 65535
-virtual memory          (kbytes, -v) unlimited
-file locks                      (-x) unlimited
-</code></pre>
-
-<p>如果没有更改重启系统即可</p>
-
-<p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。</p>
-
-<p>limits.conf的格式如下：<br/>
-username|@groupname type resource limit<br/>
-username|@groupname：</p>
-
-<p>设置需要被限制的用户名，组名前面加@和用户名区别，也可以用通配符*来做所有用户的限制。
-type：有 soft，hard 和 -，<br/>
-soft 指的是当前系统生效的设置值。<br/>
-hard 表明系统中所能设定的最大值。<br/>
-soft 的限制不能比hard 限制高。<br/>
-用 - 就表明同时设置了 soft 和 hard 的值。</p>
-
-<pre><code>resource：
-core - 限制内核文件的大小
-date - 最大数据大小
-fsize - 最大文件大小
-memlock - 最大锁定内存地址空间
-nofile - 打开文件的最大数目
-rss - 最大持久设置大小
-stack - 最大栈大小
-cpu - 以分钟为单位的最多 CPU 时间
-noproc - 进程的最大数目
-as - 地址空间限制
-maxlogins - 此用户允许登录的最大数目
-</code></pre>
-
-<p>要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：<br/>
-session required /lib/security/pam_limits.so</p>
-
-<p>例如：修改文件描述符大小(65536)</p>
-
-<p>vi  /etc/security/limits.conf</p>
-
-<pre><code>*   soft    nofile  65536  
-*   hard    nofile  65536
-</code></pre>
 ]]></content>
   </entry>
   
