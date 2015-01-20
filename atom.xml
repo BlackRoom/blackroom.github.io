@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-20T13:43:11+08:00</updated>
+  <updated>2015-01-20T13:45:09+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -113,8 +113,9 @@ session required /lib/security/pam_limits.so</p>
 <p>例如：修改文件描述符大小(65536)
 vi  /etc/security/limits.conf</p>
 
-<blockquote><p>* soft    nofile  65536
-* hard    nofile  65536</p></blockquote>
+<blockquote><p>  *  soft    nofile  65536</p>
+
+<p>  *  hard    nofile  65536</p></blockquote>
 ]]></content>
   </entry>
   

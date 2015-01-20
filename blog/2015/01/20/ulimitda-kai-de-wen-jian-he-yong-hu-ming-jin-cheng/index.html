@@ -168,8 +168,9 @@ session required /lib/security/pam_limits.so</p>
 <p>例如：修改文件描述符大小(65536)
 vi  /etc/security/limits.conf</p>
 
-<blockquote><p>* soft    nofile  65536
-* hard    nofile  65536</p></blockquote>
+<blockquote><p>  *  soft    nofile  65536</p>
+
+<p>  *  hard    nofile  65536</p></blockquote>
 </div>
 
 
