@@ -141,14 +141,25 @@ samba   服务器端软件，主要提供samba服务器的守护程序，共享�
 config file = /usr/local/samba/lib/smb.conf.%m  
 </code></pre>
 
-<p>说明：config file可以让你使用另一个配置文件来覆盖缺省的配置文件。如果文件不存在，则该项无效。这个参数很有用，可以使得samba配置更灵活，可以让一台 samba服务器模拟多台不同配置的服务器。比如，你想让PC1（主机名）这台电脑在访问Samba Server时使用它自己的配置文件，那么先在/etc/samba/host/下为PC1配置一个名为smb.conf.pc1的文件，然后在 smb.conf中加入：config file = /etc/samba/host/smb.conf.%m。这样当PC1请求连接Samba Server时，smb.conf.%m就被替换成smb.conf.pc1。这样，对于PC1来说，它所使用的Samba服务就是由 smb.conf.pc1定义的，而其他机器访问Samba Server则还是应用smb.conf。<br/>
-    workgroup = WORKGROUP<br/>
-说明：设定 Samba Server 所要加入的工作组或者域。<br/>
-    server string = Samba Server Version %v<br/>
-说明：设定 Samba Server 的注释，可以是任何字符串，也可以不填。宏%v表示显示Samba的版本号。<br/>
-    netbios name = smbserver<br/>
-说明：设置Samba Server的NetBIOS名称。如果不填，则默认会使用该服务器的DNS名称的第一部分。netbios name和workgroup名字不要设置成一样了。<br/>
-    interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24</p>
+<p>说明：config file可以让你使用另一个配置文件来覆盖缺省的配置文件。如果文件不存在，则该项无效。这个参数很有用，可以使得samba配置更灵活，可以让一台 samba服务器模拟多台不同配置的服务器。比如，你想让PC1（主机名）这台电脑在访问Samba Server时使用它自己的配置文件，那么先在/etc/samba/host/下为PC1配置一个名为smb.conf.pc1的文件，然后在 smb.conf中加入：config file = /etc/samba/host/smb.conf.%m。这样当PC1请求连接Samba Server时，smb.conf.%m就被替换成smb.conf.pc1。这样，对于PC1来说，它所使用的Samba服务就是由 smb.conf.pc1定义的，而其他机器访问Samba Server则还是应用smb.conf。</p>
+
+<pre><code>workgroup = WORKGROUP  
+</code></pre>
+
+<p>说明：设定 Samba Server 所要加入的工作组或者域。</p>
+
+<pre><code>server string = Samba Server Version %v  
+</code></pre>
+
+<p>说明：设定 Samba Server 的注释，可以是任何字符串，也可以不填。宏%v表示显示Samba的版本号。</p>
+
+<pre><code>netbios name = smbserver  
+</code></pre>
+
+<p>说明：设置Samba Server的NetBIOS名称。如果不填，则默认会使用该服务器的DNS名称的第一部分。netbios name和workgroup名字不要设置成一样了。</p>
+
+<pre><code>interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24  
+</code></pre>
 
 <p>说明：设置Samba Server监听哪些网卡，可以写网卡名，也可以写该网卡的IP地址。</p>
 
@@ -159,29 +170,56 @@ config file = /usr/local/samba/lib/smb.conf.%m
 例如：hosts allow=172.17.2.EXCEPT172.17.2.50<br/>
 表示容许来自172.17.2.*的主机连接，但排除172.17.2.50<br/>
 hosts allow=172.17.2.0/255.255.0.0<br/>
-表示容许来自172.17.2.0/255.255.0.0子网中的所有主机连接<br/>
-hosts allow=M1，M2<br/>
-表示容许来自M1和M2两台计算机连接<br/>
-hosts allow=@pega<br/>
-表示容许来自pega网域的所有计算机连接<br/>
-    max connections = 0<br/>
-说明：max connections用来指定连接Samba Server的最大连接数目。如果超出连接数目，则新的连接请求将被拒绝。0表示不限制。
-    deadtime = 0<br/>
-说明：deadtime用来设置断掉一个没有打开任何文件的连接的时间。单位是分钟，0代表Samba Server不自动切断任何连接。
-    time server = yes/no<br/>
-说明：time server用来设置让nmdb成为windows客户端的时间服务器。
-    log file = /var/log/samba/log.%m<br/>
-说明：设置Samba Server日志文件的存储位置以及日志文件名称。在文件名后加个宏%m（主机名），表示对每台访问Samba Server的机器都单独记录一个日志文件。如果pc1、pc2访问过Samba Server，就会在/var/log/samba目录下留下log.pc1和log.pc2两个日志文件。
-    max log size = 50<br/>
-说明：设置Samba Server日志文件的最大容量，单位为kB，0代表不限制。
-    security = user<br/>
-说明：设置用户访问Samba Server的验证方式，一共有四种验证方式。<br/>
+表示容许来自172.17.2.0/255.255.0.0子网中的所有主机连接</p>
+
+<pre><code>hosts allow=M1，M2  
+</code></pre>
+
+<p>表示容许来自M1和M2两台计算机连接</p>
+
+<pre><code>hosts allow=@pega  
+</code></pre>
+
+<p>表示容许来自pega网域的所有计算机连接</p>
+
+<pre><code>max connections = 0  
+</code></pre>
+
+<p>说明：max connections用来指定连接Samba Server的最大连接数目。如果超出连接数目，则新的连接请求将被拒绝。0表示不限制。</p>
+
+<pre><code>deadtime = 0  
+</code></pre>
+
+<p>说明：deadtime用来设置断掉一个没有打开任何文件的连接的时间。单位是分钟，0代表Samba Server不自动切断任何连接。</p>
+
+<pre><code>time server = yes/no  
+</code></pre>
+
+<p>说明：time server用来设置让nmdb成为windows客户端的时间服务器。</p>
+
+<pre><code>log file = /var/log/samba/log.%m  
+</code></pre>
+
+<p>说明：设置Samba Server日志文件的存储位置以及日志文件名称。在文件名后加个宏%m（主机名），表示对每台访问Samba Server的机器都单独记录一个日志文件。如果pc1、pc2访问过Samba Server，就会在/var/log/samba目录下留下log.pc1和log.pc2两个日志文件。</p>
+
+<pre><code>max log size = 50  
+</code></pre>
+
+<p>说明：设置Samba Server日志文件的最大容量，单位为kB，0代表不限制。</p>
+
+<pre><code>security = user  
+</code></pre>
+
+<p>说明：设置用户访问Samba Server的验证方式，一共有四种验证方式。<br/>
 1. share：用户访问Samba Server不需要提供用户名和口令, 安全性能较低。<br/>
 2. user：Samba Server共享目录只能被授权的用户访问,由Samba Server负责检查账号和密码的正确性。账号和密码要在本Samba Server中建立。<br/>
 3. server：依靠其他Windows NT/2000或Samba Server来验证用户的账号和密码,是一种代理验证。此种安全模式下,系统管理员可以把所有的Windows用户和口令集中到一个NT系统上,使用 Windows NT进行Samba认证, 远程服务器可以自动认证全部用户和口令,如果认证失败,Samba将使用用户级安全模式作为替代的方式。<br/>
-4. domain：域安全级别,使用主域控制器(PDC)来完成认证。<br/>
-    passdb backend = tdbsam<br/>
-说明：passdb backend就是用户后台的意思。目前有三种后台：smbpasswd、tdbsam和ldapsam。sam应该是security account manager（安全账户管理）的简写。
+4. domain：域安全级别,使用主域控制器(PDC)来完成认证。</p>
+
+<pre><code>passdb backend = tdbsam  
+</code></pre>
+
+<p>说明：passdb backend就是用户后台的意思。目前有三种后台：smbpasswd、tdbsam和ldapsam。sam应该是security account manager（安全账户管理）的简写。
 1.smbpasswd：该方式是使用smb自己的工具smbpasswd来给系统用户（真实用户或者虚拟用户）设置一个Samba密码，客户端就用这个密码来访问Samba的资源。smbpasswd文件默认在/etc/samba目录下，不过有时候要手工建立该文件。
 2.tdbsam： 该方式则是使用一个数据库文件来建立用户数据库。数据库文件叫passdb.tdb，默认在/etc/samba目录下。passdb.tdb用户数据库 可以使用smbpasswd –a来建立Samba用户，不过要建立的Samba用户必须先是系统用户。我们也可以使用pdbedit命令来建立Samba账户。pdbedit命令的 参数很多，我们列出几个主要的。
 　　pdbedit –a username：新建Samba账户。
