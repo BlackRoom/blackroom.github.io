@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[BLACKROOM]]></title>
+  <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
+  <link href="http://blog.blackroom.cn/"/>
+  <updated>2013-01-20T00:05:23+08:00</updated>
+  <id>http://blog.blackroom.cn/</id>
+  <author>
+    <name><![CDATA[BLACKROOM]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ulimit打开的文件和用户名进程]]></title>
+    <link href="http://blog.blackroom.cn/blog/2013/01/28/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/"/>
+    <updated>2013-01-28T16:13:10+08:00</updated>
+    <id>http://blog.blackroom.cn/blog/2013/01/28/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng</id>
+    <content type="html"><![CDATA[<p>如何提高Linux的/ Centos的/ RHEL的ulimit打开的文件和用户进程</p>
+
+<!-- more -->
+
+
+<p>vi /etc/sysctl.conf</p>
+
+<pre><code>fs.file-max = 65536
+</code></pre>
+
+<p>增加linux最大用户进程</p>
+
+<p>vi /etc/security/limits.conf</p>
+
+<pre><code>*   soft    nproc   65535
+*   hard    nproc   65535
+*   soft    nofile  65535
+*   hard    nofile  65535
+</code></pre>
+
+<p>增加linux针对用户的最大进程文件的限制</p>
+
+<p>vi /etc/security/limits.d/90-nproc.conf</p>
+
+<pre><code>*   soft    nproc   65535
+*   hard    nproc   65535
+*   soft    nofile  65535
+*   hard    nofile  65535
+</code></pre>
+
+<p>保存并退出查看linux用户最大进程或文件句柄限制</p>
+
+<p>[root@localhost# ulimit -a</p>
+
+<pre><code>core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 127358
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 65535
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 65535
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+</code></pre>
+
+<p>如果没有更改重启系统即可</p>
+
+<p>imits.conf 文件实际是 Linux PAM（插入式认证模块，Pluggable Authentication Modules）中 pam_limits.so 的配置文件，而且只针对于单个会话。</p>
+
+<p>limits.conf的格式如下：<br/>
+username|@groupname type resource limit<br/>
+username|@groupname：</p>
+
+<p>设置需要被限制的用户名，组名前面加@和用户名区别，也可以用通配符*来做所有用户的限制。
+type：有 soft，hard 和 -，<br/>
+soft 指的是当前系统生效的设置值。<br/>
+hard 表明系统中所能设定的最大值。<br/>
+soft 的限制不能比hard 限制高。<br/>
+用 - 就表明同时设置了 soft 和 hard 的值。</p>
+
+<pre><code>resource：
+core - 限制内核文件的大小
+date - 最大数据大小
+fsize - 最大文件大小
+memlock - 最大锁定内存地址空间
+nofile - 打开文件的最大数目
+rss - 最大持久设置大小
+stack - 最大栈大小
+cpu - 以分钟为单位的最多 CPU 时间
+noproc - 进程的最大数目
+as - 地址空间限制
+maxlogins - 此用户允许登录的最大数目
+</code></pre>
+
+<p>要使 limits.conf 文件配置生效，必须要确保 pam_limits.so 文件被加入到启动文件中。查看 /etc/pam.d/login 文件中有：<br/>
+session required /lib/security/pam_limits.so</p>
+
+<p>例如：修改文件描述符大小(65536)</p>
+
+<p>vi  /etc/security/limits.conf</p>
+
+<pre><code>*   soft    nofile  65536  
+*   hard    nofile  65536
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Markdown: 基础 （快速入门）]]></title>
+    <link href="http://blog.blackroom.cn/blog/2013/01/25/markdown-ji-chu-(kuai-su-ru-men-)/"/>
+    <updated>2013-01-25T13:06:26+08:00</updated>
+    <id>http://blog.blackroom.cn/blog/2013/01/25/markdown-ji-chu-(kuai-su-ru-men-)</id>
+    <content type="html"><![CDATA[<p>Markdown 其实很简单就可以上手，此文档提供了一些使用范例，用作备忘。</p>
+
+<!-- more -->
+
+
+<h2>段落、标题、区块代码</h2>
+
+<p>一个段落是由一个以上的连接的行句组成，而一个以上的空行则会划分出不同的段落（空行的定义是显示上看起来像是空行，就被视为空行，例如有一行只有空白和 tab，那该行也会被视为空行），一般的段落不需要用空白或换行缩进。</p>
+
+<p>单个回车视为空格。连续回车才能分段。行尾加两个空格，即可段内换行。</p>
+
+<p>显示如下代码框只需要在文字前面添加四个空格或者是一个<code>&lt;tab&gt;</code>即可</p>
+
+<pre><code>显示当前代码框只需要在文字前面添加四个空格或者是一个tab即可
+</code></pre>
+
+<p>Markdown 支持两种标题的语法，Setext 和 atx 形式。<br/>
+Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题）。</p>
+
+<pre><code>第一阶标题
+===========
+</code></pre>
+
+<h1>第一阶标题</h1>
+
+<pre><code>第二阶标题
+----------
+</code></pre>
+
+<h2>第二阶标题</h2>
+
+<p>Atx 形式在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶。</p>
+
+<pre><code>#第一阶标题  
+</code></pre>
+
+<h1>第一阶标题</h1>
+
+<pre><code>##第二阶标题  
+</code></pre>
+
+<h2>第二阶标题</h2>
+
+<pre><code>###第三阶标题  
+</code></pre>
+
+<h3>第三阶标题</h3>
+
+<p>……</p>
+
+<pre><code>######第六阶标题  
+</code></pre>
+
+<h6>第六阶标题</h6>
+
+<p>区块引用则使用 email 形式的 &lsquo;>&rsquo; 角括号。</p>
+
+<pre><code>&gt; 此处是区块引用  
+</code></pre>
+
+<blockquote><p>此处是区块引用</p></blockquote>
+
+<h2>修辞和强调</h2>
+
+<p>Markdown 使用星号和底线来标记需要强调的区段。</p>
+
+<pre><code>*首尾各一个*号这些文字显示为斜体*  
+</code></pre>
+
+<p><em>首尾各一个星号这些文字显示为斜体</em></p>
+
+<pre><code>**首尾各两个*号这些文字显示为粗体**  
+</code></pre>
+
+<p><strong>首尾各两个星号这些文字显示为粗体</strong></p>
+
+<pre><code>***首尾各三个*号这些文字显示为斜体加粗体***  
+</code></pre>
+
+<p><strong><em>首尾各三个星号这些文字显示为斜体加粗体</em></strong></p>
+
+<pre><code>_首尾使用底线强调区段_  
+</code></pre>
+
+<p><em>首尾使用底线强调区段</em></p>
+
+<h2>列表</h2>
+
+<p>无序列表使用星号、加号和减号来做为列表的项目标记，这些符号是都可以使用的.</p>
+
+<p>星号：</p>
+
+<pre><code>* Candy.
+* Gum.
+* Booze.  
+</code></pre>
+
+<ul>
+<li>Candy.</li>
+<li>Gum.</li>
+<li>Booze.</li>
+</ul>
+
+
+<p>加号：</p>
+
+<pre><code>+ Candy.
++ Gum.
++ Booze.  
+</code></pre>
+
+<ul>
+<li>Candy.</li>
+<li>Gum.</li>
+<li>Booze.</li>
+</ul>
+
+
+<p>和减号：</p>
+
+<pre><code>- Candy.
+- Gum.
+- Booze.  
+</code></pre>
+
+<ul>
+<li>Candy.</li>
+<li>Gum.</li>
+<li>Booze.</li>
+</ul>
+
+
+<p>有序的列表则是使用一般的数字接着一个英文句点作为项目标记：</p>
+
+<pre><code>1. Red
+2. Green
+3. Blue  
+</code></pre>
+
+<ol>
+<li>Red</li>
+<li>Green</li>
+<li><p>Blue</p>
+
+<p> 如果你在项目之间插入空行，那项目的内容会用 <p> 包起来，你也可以在一个项目内放上多个段落，只要在它前面缩排 4 个空白或 1 个 tab 。<br/>
+如果你在项目之间插入空行，那项目的内容会用 <p> 包起来，你也可以在一个项目内放上多个段落，只要在它前面缩排 4 个空白或 1 个 tab 。</p></li>
+</ol>
+
+
+<hr />
+
+<p>上面是一条横线</p>
+
+<pre><code>---
+上面是一条横线
+</code></pre>
+
+<p>两个列表之间不能相邻，否则会解释为嵌套的列表</p>
+
+<pre><code>- 外层列表项目
+ + 内层列表项目
+ + 内层列表项目
+ + 内层列表项目
+- 外层列表  
+</code></pre>
+
+<ul>
+<li>外层列表项目</li>
+<li>内层列表项目</li>
+<li>内层列表项目</li>
+<li>内层列表项目</li>
+<li>外层列表</li>
+</ul>
+
+
+<p>项目Markdown 支援两种形式的链接语法： 行内 和 参考 两种形式，两种都是使用角括号来把文字转成连结。</p>
+
+<p>行内形式是直接在后面用括号直接接上链接：</p>
+
+<pre><code>This is an [example link](http://example.com/).
+</code></pre>
+
+<p>This is an <a href="http://example.com/">example link</a>.</p>
+
+<p>你也可以选择性的加上 title 属性</p>
+
+<pre><code>This is an [example link](http://example.com/ "With a Title").
+</code></pre>
+
+<p>This is an <a href="http://example.com/" title="With a Title">example link</a>.</p>
+
+<p>参考形式的链接让你可以为链接定一个名称，之后你可以在文件的其他地方定义该链接的内容：</p>
+
+<pre><code>I get 10 times more traffic from [Google][1] than from
+[Yahoo][2] or [MSN][3].
+
+[1]: http://google.com/ "Google"
+[2]: http://search.yahoo.com/ "Yahoo Search"
+[3]: http://search.msn.com/ "MSN Search"
+</code></pre>
+
+<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from
+<a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>
+
+<p>title 属性是选择性的，链接名称可以用字母、数字和空格，但是不分大小写：</p>
+
+<pre><code>I start my morning with a cup of coffee and
+[The New York Times][NY Times].
+
+[ny times]: http://www.nytimes.com/
+</code></pre>
+
+<p>I start my morning with a cup of coffee and
+<a href="http://www.nytimes.com/">The New York Times</a>.</p>
+
+<h2>图片</h2>
+
+<p>图片的语法和链接很像。</p>
+
+<p>行内形式（title 是选择性的）：</p>
+
+<pre><code>![alt text](/path/to/img.jpg "Title")
+</code></pre>
+
+<p>参考形式：</p>
+
+<pre><code>![alt text][id]
+
+[id]: /path/to/img.jpg "Title"
+</code></pre>
+
+<h2>代码</h2>
+
+<p>在一般的段落文字中，你可以使用反引号 ` 来标记代码区段，区段内的 &amp;、&lt; 和 > 都会被自动的转换成 HTML 实体，这项特性让你可以很容易的在代码区段内插入 HTML 码：</p>
+
+<pre><code>I strongly recommend against using any `&lt;blink&gt;` tags.
+
+I wish SmartyPants used named entities like `&amp;mdash;`
+instead of decimal-encoded entites like `&amp;#8212;`.  
+</code></pre>
+
+<p>I strongly recommend against using any <code>&lt;blink&gt;</code> tags.</p>
+
+<p>I wish SmartyPants used named entities like <code>&amp;mdash;</code>
+instead of decimal-encoded entites like <code>&amp;#8212;</code>.</p>
+
+<p>如果要建立一个已经格式化好的代码区块，只要每行都缩进 4 个空格或是一个 tab 就可以了，而 &amp;、&lt; 和 > 也一样会自动转成 HTML 实体。</p>
+
+<p>Markdown 语法:</p>
+
+<pre><code>If you want your page to validate under XHTML 1.0 Strict,
+you've got to put paragraph tags in your blockquotes:
+
+&lt;blockquote&gt;
+&lt;p&gt;For example.&lt;/p&gt;
+&lt;/blockquote&gt;  
+</code></pre>
+
+<p>If you want your page to validate under XHTML 1.0 Strict,
+you&rsquo;ve got to put paragraph tags in your blockquotes:</p>
+
+<blockquote>
+<p>For example.</p>
+</blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[利用octopress部署博客到github]]></title>
+    <link href="http://blog.blackroom.cn/blog/2013/01/20/li-yong-octopressbu-shu-bo-ke-dao-github/"/>
+    <updated>2013-01-20T11:01:31+08:00</updated>
+    <id>http://blog.blackroom.cn/blog/2013/01/20/li-yong-octopressbu-shu-bo-ke-dao-github</id>
+    <content type="html"><![CDATA[<p>这里将详细讲解一下如何利用octopress在github上部署一个博客程序，既方便写博客又无需考虑托管问题，同时天然的在本地有一个备份，所有操作都基于git，有无限版本控制。使用markdown书写具体的博客内容，自带代码高亮解决方案。</p>
+
+<p> <!-- more -->
+github使用的博客引擎是Jekyll，octopress也是利用Jekyll引擎来开发博客的，因此生成的博客系统可以直接在github pages上运行良好。</p>
+
+<p>环境说明:</p>
+
+<p>本地环境是在ubuntu14.04.1系统下部署的，其他系统也没问题，只需要支持ruby，git</p>
+
+<h2>1.Ruby等依赖安装</h2>
+
+<p>Ruby 需要高于或等于1.9.3版本的，同时由于Jekyll和octopress都是ruby写的，会有诸多ruby依赖，建议切换ruby源为国内源。对于git版本没有太大要求。</p>
+
+<p><strong>Install Ruby</strong></p>
+
+<pre><code>sudo apt-get install ruby
+</code></pre>
+
+<p>查看ruby版本方法如下</p>
+
+<pre><code>ruby --version
+</code></pre>
+
+<p><strong>Install bundler</strong></p>
+
+<p>bundle可以自动解决依赖，安装方法如下：</p>
+
+<pre><code>sudo apt-get  install bundler
+</code></pre>
+
+<p><strong>Install git</strong></p>
+
+<p>默认ubuntu14.04已经自带有安装git，如果没有安装git，请自行安装<a href="http://git-scm.com/">git</a></p>
+
+<p>查看git的版本</p>
+
+<pre><code>git --version
+$git version 1.9.1
+</code></pre>
+
+<p>安装git</p>
+
+<p>sudo apt-get install git</p>
+
+<h2>2.octopress安装</h2>
+
+<p>octopress 的安装也比较简单，下载源码后会有Gemfile文件来指示所有依赖，使用bundle即可。</p>
+
+<p>下载源码</p>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+cd octopress
+</code></pre>
+
+<p><strong>安装octopress</strong></p>
+
+<p>使用bundle自动安装,执行命令<em>bundle install</em>就会自动安装所有octopress及其所有依赖。</p>
+
+<pre><code>bundle install
+</code></pre>
+
+<p>注意： 如果上面的命令执行失败，提示下面的错误：</p>
+
+<pre><code>Gem::Installer::ExtensionBuildError: ERROR: Failed to build gem native extension.
+/usr/bin/ruby1.9.1 extconf.rb 
+/usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf   (LoadError)
+</code></pre>
+
+<p>请执行下面的命令安装ruby1.9.1-dev</p>
+
+<pre><code>sudo apt-get install ruby1.9.1-dev
+</code></pre>
+
+<p><strong>安装octopress默认主题</strong></p>
+
+<pre><code>rake install
+</code></pre>
+
+<p>在octopress根目录下的Rakefile定义了如何将octopress跟Jekyll连接起来，rake打包了一些常见的如发布博客主题、生成博客数据、发布博客等一系列命令来简化博主的操作。直接使用Jekyll每一个任务都需要不少命令和文件编辑。</p>
+
+<p><strong>tips： 保持Jekyll最新</strong></p>
+
+<p>由于Jekyll更新比较频繁，为了确保你在本地调试的时候看到的网站效果跟GitHub Pages上的一致，务必时常更新Jekyll，推荐使用bundle更新，命令如下：</p>
+
+<pre><code>bundle update
+</code></pre>
+
+<h2>3.octopress配置</h2>
+
+<p>实际上octopress已经很好的隐藏了Jekyll的诸多配置，我们只需要简单操作几个文件。octopress就会自动生成相应的Jekyll配置。这里我们仅仅讲解一下_config.yml文件的部分配置项，具体请看官网<a href="http://octopress.org/docs/configuring/">Configuring Octopress</a>。</p>
+
+<p>该文件的配置分为三大部分:Main config、Jekyll&amp;Plugin、3rd Party Settings。</p>
+
+<p>Main config</p>
+
+<pre><code>url:                # For rewriting urls for RSS, etc  
+title:              # Used in the header and title tags
+subtitle:           # A description used in the header
+author:             # Your name, for RSS, Copyright, Metadata
+simple_search:      # Search engine for simple site search
+description:        # A default meta description for your site
+date_format:        # Format dates using Ruby's date strftime syntax
+subscribe_rss:      # Url for your blog's feed, defauts to /atom.xml
+subscribe_email:    # Url to subscribe by email (service required)
+category_feeds:     # Enable per category RSS feeds (defaults to false in 2.1)
+email:              # Email address for the RSS feed if you want it.
+</code></pre>
+
+<p>注释说明已经很详细了，有一点需要强调的是，<strong><em>如果你想启用自己的域名来访问，这里的url务必修改为你自己的域名，否则即便你添加了CNAME文件，使用rake部署的时候也不会部署该CNAME文件。</em></strong></p>
+
+<p><em>建议：</em></p>
+
+<blockquote><p>最好把里面的twitter相关的信息全部删掉，否则由于GFW的原因，将会造成页面load很慢。涉及到的文件比较多，小心删除，如果以发表博客，_deploy目录下无需手动删除，重新生成博客后会自动删除。同理，修改定制文件/source/<em>includes/custom/head.html, source/</em>includes/head.html把google的自定义字体去掉。</p></blockquote>
+
+<h2>4.部署到github</h2>
+
+<p>github pages支持托管，地址为<a href="https://pages.github.com/">https://pages.github.com/</a>。在这个页面你只需要大概了解一下什么事github page，如何申请就行了。</p>
+
+<p>新建一个仓库，名为your_user_name.github.io，当然也可以是project，这个方法有点不一样，这里以your_user_name.github.io为例。</p>
+
+<p>在octopress根目录执行 rake setup_github_pages ，按照要求输入仓库地址等，这个命令会在跟目录下新建_deploy目录，这个会push到仓库的master分支，也就是访问博客的文件。</p>
+
+<pre><code>rake setup_github_pages
+Enter the read/write url for your repository
+(For example, 'git@github.com:your_username/your_username.github.io.git)
+    or 'https://github.com/your_username/your_username.github.io')
+Repository url: 
+</code></pre>
+
+<p>生成博客， <em>rake generate</em> 这个会按照既定规则生成静态文件的博客。</p>
+
+<pre><code>rake generate
+</code></pre>
+
+<p>发布博客， <em>rake deploy</em> 将前一步生成的静态文件拷贝到_deploy目录并push到github</p>
+
+<pre><code>rake deploy
+</code></pre>
+
+<p><strong>注意：</strong></p>
+
+<p>第一次执行 <em>rake deploy</em> 的时候会报错如下：</p>
+
+<pre><code>! [rejected]        master -&gt; master (non-fast-forward)
+error: failed to push some refs to 'https://github.com/blackroom/blackroom.github.com.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Merge the remote changes (e.g. 'git pull')
+hint: before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+</code></pre>
+
+<p>解决方法是手动进入_deploy目录手动强制push一次。</p>
+
+<pre><code>cd octopress/_deploy
+git push origin +master
+cd ..
+rake deploy
+</code></pre>
+
+<p>这样再次执行就不会报错了。</p>
+
+<p><strong>博客本地预览</strong></p>
+
+<p>如果在部署到仓库之前，需要先预览一下博客，可以在终端输入 <em>rake preview</em> 命令，然后就能在浏览器中进行本地预览访问了：&#8221;<a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a>&ldquo;或&#8221;<a href="http://localhost:4000/">http://localhost:4000/</a>&#8220;，效果跟仓库的一样。</p>
+
+<pre><code>rake preview
+</code></pre>
+
+<p><strong>提交源码用于备份</strong></p>
+
+<p>前面提到的deploy只是部署博客代码到github上面，整个octopress并没有提交，为了保证在任何地方随时发布博客，而无需再次详细配置以保证跟github上的最新代码一致，可以将当前octopress的源码存放到github的source分支下：</p>
+
+<pre><code>git commit -am 'Initial source commit'
+git push origin source
+</code></pre>
+
+<h2>5.新建博文</h2>
+
+<p>新建博文也非常简单，octopress已经预定义了脚本 <em>rake new_post[&ldquo;title&rdquo;]</em> 方便我们操作，因为Jekyll有一套固定的文档路径以及命名规范，需要按照它的规定来实现才能成功生成博文。博文必须存储在source/_posts目录下，并且需要按照Jekyll的命名规范对文章进行命名：YYYY-MM-DD-post-title.markdown。文章的名字会被当做url的一部分，而其中的日期用于对博文的区分和排序。</p>
+
+<pre><code>rake new_post["title"]
+</code></pre>
+
+<p>new_post执行后会自动新建博文，并在相应的markdown文件中写入yaml元数据。</p>
+
+<pre><code>---
+layout: post
+title: "title"
+date: 2013-01-20 16:36
+comments: true
+categories: 
+---
+</code></pre>
+
+<p>这里的categories是自定义的分类名，支持的定义方式如下：</p>
+
+<pre><code>#One category
+categories: Sass
+#Multiple categories example 1
+categories: [CSS3, Sass, Media Queries]
+#Multiple categories example 2
+categories:
+- CSS3
+- Sass
+- Media Queries
+</code></pre>
+
+<p>除此之外，还支持 <em>author: Your Name</em> 来指明作者，支持 <em>published: false</em> 表明当前博文是草稿暂时不发布。</p>
+
+<p><strong>发布博文完整流程：</strong></p>
+
+<pre><code>rake new_post["New Post"]
+edit the file source/_posts/{DATETIME}-New-Post.markdown
+rake generate
+git commit -am "Some comment here." 
+git push origin source
+rake deploy
+</code></pre>
+
+<p><strong>新建页面</strong></p>
+
+<p>你可以在博客源目录下任意地方添加页面，Jekyll会自动拼接，对应的url地址也会根据页面路径自动生成 ，如果要添加 about.markdown ，那么就会生成 site.com/about.html ，如果你想要的url地址是 site.com/about/ ,你需要新建的页面应该是 about/index.markdown .同样的，octopress也有脚本完成这个操作。</p>
+
+<pre><code>rake new_page[super-awesome]
+$creates /source/super-awesome/index.markdown
+
+rake new_page[super-awesome/page.html]
+$creates /source/super-awesome/page.html
+</code></pre>
+
+<p>像发布博文一样，默认后缀依然是markdown，但是你可以再Rakefile中修改这个默认配置；一个干净的页面文件如下：</p>
+
+<pre><code>---
+layout: page
+title: "Super Awesome"
+date: 2013-01-20 5:59
+comments: true
+sharing: true
+footer: true
+---
+</code></pre>
+
+<p>这里的title来自于文件名。你也可以手动修改。跟博文的一样，除了不包含分类 categories，对于 sharing 和 comments 你可以关闭，对于 footer 你可以删除，这样就不会添加默认的footer信息到该页面；如果你不像要再页面中显示日期，可以删除这里的 date 。</p>
+
+<p><strong>内容</strong></p>
+
+<p>页面和博文会调用markup 引擎渲染，默认引擎是再配置文件中；此外，你可以使用任何Jekyll docs中所介绍的模板特性。</p>
+
+<p>默认首页是显示全文，要想仅仅显示摘要，请在合适的地方插入下面的代码</p>
+
+<pre><code>&lt;!-- more --&gt;
+</code></pre>
+
+<p>这个会生成一个”Continue →” 链接来指向完整博文，这个跟wordpress的一样。</p>
+
+<p><a href="http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)/" title="Markdown: 基础">Markdown: 基础 （快速入门）</a></p>
+]]></content>
+  </entry>
+  
+</feed>
