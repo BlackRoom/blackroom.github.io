@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-22T13:53:36+08:00</updated>
+  <updated>2015-01-22T13:57:47+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[BLACKROOM]]></name>
@@ -645,7 +645,7 @@ footer: true
 
 <p>这个会生成一个”Continue →” 链接来指向完整博文，这个跟wordpress的一样。</p>
 
-<p><a href="http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)/" title="Markdown: 基础">Markdown: 基础 （快速入门）</a></p>
+<p><a href="http://blog.blackroom.cn/blog/2013/01/25/markdown-ji-chu-(kuai-su-ru-men-)/" title="Markdown: 基础">Markdown: 基础 （快速入门）</a></p>
 ]]></content>
   </entry>
   
