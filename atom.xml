@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-22T17:47:26+08:00</updated>
+  <updated>2015-01-22T17:58:20+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[BLACKROOM]]></name>
@@ -18,7 +18,26 @@
     <link href="http://blog.blackroom.cn/blog/2013/03/28/smba-wen-jian-fu-wu-qi/"/>
     <updated>2013-03-28T16:14:00+08:00</updated>
     <id>http://blog.blackroom.cn/blog/2013/03/28/smba-wen-jian-fu-wu-qi</id>
-    <content type="html"><![CDATA[<h2>一.Samba简介</h2>
+    <content type="html"><![CDATA[<p>[TOC]</p>
+
+<h1>目录</h1>
+
+<h2>一.Samba简介</h2>
+
+<h2>二.系统环境</h2>
+
+<h2>三.安装Samba服务</h2>
+
+<h2>四.配置Samba服务</h2>
+
+<p><strong>使用案例</strong></p>
+
+<h2>五.Samba Web管理工具 SWAT</h2>
+
+<h2>一.Samba简介</h2>
+
+<!--more -->
+
 
 <p>Samba是一个能让Linux系统应用Microsoft网络通讯协议的软件，而SMB是Server Message Block的缩写，即为服务器消息块 ，SMB主要是作为Microsoft的网络通讯协议，后来Samba将SMB通信协议应用到了Linux系统上，就形成了现在的Samba软件。后来微软又把 SMB 改名为 CIFS（Common Internet File System），即公共 Internet 文件系统，并且加入了许多新的功能，这样一来，使得Samba具有了更强大的功能。</p>
 
