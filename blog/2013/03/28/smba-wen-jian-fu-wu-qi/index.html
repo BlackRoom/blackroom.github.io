@@ -295,14 +295,20 @@ hosts allow=172.17.2.0/255.255.0.0<br/>
 <pre><code>dns proxy = yes/no  
 </code></pre>
 
-<p>说明：设置Samba Server是否开启dns代理服务。
-    load printers = yes/no</p>
+<p>说明：设置Samba Server是否开启dns代理服务。</p>
 
-<p>说明：设置是否在启动Samba时就共享打印机。
-    printcap name = cups</p>
+<pre><code>load printers = yes/no  
+</code></pre>
 
-<p>说明：设置共享打印机的配置文件。
-    printing = cups</p>
+<p>说明：设置是否在启动Samba时就共享打印机。</p>
+
+<pre><code>printcap name = cups  
+</code></pre>
+
+<p>说明：设置共享打印机的配置文件。</p>
+
+<pre><code>printing = cups  
+</code></pre>
 
 <p>说明：设置Samba共享打印机的类型。现在支持的打印系统有：bsd, sysv, plp, lprng, aix, hpux, qnx</p>
 
@@ -315,54 +321,36 @@ comment = 任意字符串<br/>
 <p>path = 共享目录路径<br/>
 说 明：path用来指定共享目录的路径。可以用%u、%m这样的宏来代替路径里的unix用户和客户机的Netbios名，用宏表示主要用于[homes] 共享域。例如：如果我们不打算用home段做为客户的共享，而是在/home/share/下为每个Linux用户以他的用户名建个目录，作为他的共享目 录，这样path就可以写成：path = /home/share/%u; 。用户在连接到这共享时具体的路径会被他的用户名代替，要注意这个用户名路径一定要存在，否则，客户机在访问时会找不到网络路径。同样，如果我们不是以用 户来划分目录，而是以客户机来划分目录，为网络上每台可以访问samba的机器都各自建个以它的netbios名的路径，作为不同机器的共享资源，就可以 这样写：path = /home/share/%m 。</p>
 
-<pre><code>browseable = yes/no  
-</code></pre>
+<p>browseable = yes/no<br/>
+说明：browseable用来指定该共享是否可以浏览。</p>
 
-<p>说明：browseable用来指定该共享是否可以浏览。</p>
+<p>writable = yes/no<br/>
+说明：writable用来指定该共享路径是否可写。</p>
 
-<pre><code>writable = yes/no  
-</code></pre>
+<p>available = yes/no<br/>
+说明：available用来指定该共享资源是否可用。</p>
 
-<p>说明：writable用来指定该共享路径是否可写。</p>
-
-<pre><code>available = yes/no  
-</code></pre>
-
-<p>说明：available用来指定该共享资源是否可用。</p>
-
-<pre><code>admin users = 该共享的管理者  
-</code></pre>
-
-<p>说明：admin users用来指定该共享的管理员（对该共享具有完全控制权限）。在samba 3.0中，如果用户验证方式设置成“security=share”时，此项无效。
+<p>admin users = 该共享的管理者<br/>
+说明：admin users用来指定该共享的管理员（对该共享具有完全控制权限）。在samba 3.0中，如果用户验证方式设置成“security=share”时，此项无效。<br/>
 例如：admin users =david，sandy（多个用户中间用逗号隔开）。</p>
 
-<pre><code>valid users = 允许访问该共享的用户  
-</code></pre>
-
-<p>说明：valid users用来指定允许访问该共享资源的用户。
+<p>valid users = 允许访问该共享的用户<br/>
+说明：valid users用来指定允许访问该共享资源的用户。<br/>
 例如：valid users = david，@dave，@tech（多个用户或者组中间用逗号隔开，如果要加入一个组就用“@组名”表示。）</p>
 
-<pre><code>invalid users = 禁止访问该共享的用户  
-</code></pre>
-
-<p>说明：invalid users用来指定不允许访问该共享资源的用户。
+<p>invalid users = 禁止访问该共享的用户<br/>
+说明：invalid users用来指定不允许访问该共享资源的用户。<br/>
 例如：invalid users = root，@bob（多个用户或者组中间用逗号隔开。）</p>
 
-<pre><code>write list = 允许写入该共享的用户  
-</code></pre>
-
-<p>说明：write list用来指定可以在该共享下写入文件的用户。
+<p>write list = 允许写入该共享的用户<br/>
+说明：write list用来指定可以在该共享下写入文件的用户。<br/>
 例如：write list = david，@dave</p>
 
-<pre><code>public = yes/no  
-</code></pre>
+<p>public = yes/no<br/>
+说明：public用来指定该共享是否允许guest账户访问。</p>
 
-<p>说明：public用来指定该共享是否允许guest账户访问。</p>
-
-<pre><code>guest ok = yes/no  
-</code></pre>
-
-<p>说明：意义同“public”。</p>
+<p>guest ok = yes/no<br/>
+说明：意义同“public”。</p>
 
 <p><strong>几个特殊共享：</strong></p>
 
@@ -394,14 +382,14 @@ browseable = no
 guest ok = yes
 </code></pre>
 
-<p>Samba安装好后，使用testparm命令可以测试smb.conf配置是否正确。使用testparm –v命令可以详细的列出smb.conf支持的配置参数。
+<p>Samba安装好后，使用testparm命令可以测试smb.conf配置是否正确。使用testparm –v命令可以详细的列出smb.conf支持的配置参数。<br/>
 默认的smb.conf有很多个选项和内容，比较繁琐，这里我们按照案例来讲解配置选项，先备份一下自己的smb.conf文件，然后重新建立一个smb.conf。</p>
 
 <pre><code># cp -p /etc/samba/smb.conf    /etc/samba/smb.conf.bak
 </code></pre>
 
 <p>案例、公司现有一个工作组workgroup，需要添加samba服务器作为文件服务器，并发布共享目录/share，共享名为public，此共享目录允许所有员工访问。
-a. 修改samba的主配置文件如下：
+a. 修改samba的主配置文件如下：<br/>
 复制代码</p>
 
 <h1>======================= Global Settings =====================================</h1>
