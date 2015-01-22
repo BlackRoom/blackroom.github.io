@@ -236,4 +236,4 @@ new\_post执行后会自动新建博文，并在相应的markdown文件中写入
 
 
 [Markdown: 基础 （快速入门）][1]
-[1]:http://blog.blackroom.cn/blog/2015/01/20/markdown-ji-chu-(kuai-su-ru-men-)/ "Markdown: 基础"
+[1]:http://blog.blackroom.cn/blog/2013/01/25/markdown-ji-chu-(kuai-su-ru-men-)/ "Markdown: 基础"
