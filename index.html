@@ -97,12 +97,12 @@ SELINUX=disabled</p>
 
 <h2>三.安装Samba服务</h2>
 
-<h4>1.在可以联网的机器上使用yum工具安装，如果未联网，则挂载系统光盘进行安装。</h4>
+<h4>1.如果联网的话可以使用yum工具安装方便快捷，如果未联网，则挂载系统光盘进行安装。</h4>
 
 <pre><code># yum install samba samba-client samba-swat
 </code></pre>
 
-<p>有依赖关系的包<strong>samba-common、samba-winbind-clients、libsmbclient</strong>将自动安装上去。</p>
+<p>使用yum如果有有依赖关系的包<strong>samba-common、samba-winbind-clients、libsmbclient</strong>将会自动安装上去。</p>
 
 <h4>2.安装包说明</h4>
 
@@ -112,45 +112,45 @@ samba-swat  基于https协议的samba服务器web配置界面
 samba   服务器端软件，主要提供samba服务器的守护程序，共享文档，日志的轮替，开机默认选项  
 </code></pre>
 
-<p>Samba服务器安装完毕，会生成配置文件目录<strong>/etc/samba</strong>和其它一些samba可执行命令工具，<strong>/etc/samba/smb.conf</strong>是samba的核心配置文件，<strong>/etc/init.d/smb是samba</strong>的启动/关闭文件。</p>
+<p>Samba服务器安装完毕，会生成配置文件目录<strong>/etc/samba</strong>和其它一些samba可执行命令工具，<strong>/etc/samba/smb.conf</strong>是samba的核心配置文件，<strong>/etc/init.d/smb</strong>是samba的启动|关闭文件。</p>
 
 <h4>3.启动Samba服务器,查看samba的服务启动情况,设置开机自启动.</h4>
 
-<p>可以通过<strong>/etc/init.d/smb (start|stop|restart)</strong>来启动、关闭、重启Samba服务</p>
-
-<pre><code># service smb status    查看samba的服务启动情况
-# chkconfig --level 35 smb on   在3、5级别上自动运行samba服务
-</code></pre>
+<p>可以通过<strong>/etc/init.d/smb (start|stop|restart)</strong>来启动、关闭、重启Samba服务<br/>
+    # service smb start 启动samba服务
+    # service smb status    查看samba的服务启动情况
+    # chkconfig &ndash;level 35 smb on   在3、5级别上自动运行samba服务</p>
 
 <h2>四.配置Samba服务</h2>
 
 <pre><code>Samba的主配置文件为/etc/samba/smb.conf
 </code></pre>
 
-<p>主配置文件由两部分构成</p>
-
-<p><strong>Global Settings (55-245行)</strong><br/>
-该设置都是与Samba服务整体运行环境有关的选项，它的设置项目是针对所有共享资源的。</p>
-
-<p><strong>Share Definitions (246-尾行)</strong><br/>
+<p>主配置文件由两部分构成<br/>
+<strong>Global Settings (55-245行)</strong><br/>
+该设置都是与Samba服务整体运行环境有关的选项，它的设置项目是针对所有共享资源的。<br/>
+<strong>Share Definitions (246-尾行)</strong><br/>
 该设置针对的是共享目录个别的设置，只对当前的共享资源起作用。</p>
 
 <p><strong>全局参数：</strong><br/>
 <em>Global Settings</em></p>
 
-<p>[global]<br/>
-    config file = /usr/local/samba/lib/smb.conf.%m<br/>
+<pre><code>[global]
+config file = /usr/local/samba/lib/smb.conf.%m  
 说明：config file可以让你使用另一个配置文件来覆盖缺省的配置文件。如果文件不存在，则该项无效。这个参数很有用，可以使得samba配置更灵活，可以让一台 samba服务器模拟多台不同配置的服务器。比如，你想让PC1（主机名）这台电脑在访问Samba Server时使用它自己的配置文件，那么先在/etc/samba/host/下为PC1配置一个名为smb.conf.pc1的文件，然后在 smb.conf中加入：config file = /etc/samba/host/smb.conf.%m。这样当PC1请求连接Samba Server时，smb.conf.%m就被替换成smb.conf.pc1。这样，对于PC1来说，它所使用的Samba服务就是由 smb.conf.pc1定义的，而其他机器访问Samba Server则还是应用smb.conf。
-    workgroup = WORKGROUP<br/>
+workgroup = WORKGROUP  
 说明：设定 Samba Server 所要加入的工作组或者域。
-    server string = Samba Server Version %v<br/>
+server string = Samba Server Version %v  
 说明：设定 Samba Server 的注释，可以是任何字符串，也可以不填。宏%v表示显示Samba的版本号。
-    netbios name = smbserver<br/>
+netbios name = smbserver  
 说明：设置Samba Server的NetBIOS名称。如果不填，则默认会使用该服务器的DNS名称的第一部分。netbios name和workgroup名字不要设置成一样了。
-    interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24<br/>
-说明：设置Samba Server监听哪些网卡，可以写网卡名，也可以写该网卡的IP地址。
-    hosts allow = 127. 192.168.1. 192.168.10.1<br/>
-说明：表示允许连接到Samba Server的客户端，多个参数以空格隔开。可以用一个IP表示，也可以用一个网段表示。hosts deny 与hosts allow 刚好相反。<br/>
+interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24  
+</code></pre>
+
+<p>说明：设置Samba Server监听哪些网卡，可以写网卡名，也可以写该网卡的IP地址。<br/>
+    hosts allow = 127. 192.168.1. 192.168.10.1</p>
+
+<p>说明：表示允许连接到Samba Server的客户端，多个参数以空格隔开。可以用一个IP表示，也可以用一个网段表示。hosts deny 与hosts allow 刚好相反。<br/>
 例如：hosts allow=172.17.2.EXCEPT172.17.2.50<br/>
 表示容许来自172.17.2.*的主机连接，但排除172.17.2.50<br/>
 hosts allow=172.17.2.0/255.255.0.0<br/>
