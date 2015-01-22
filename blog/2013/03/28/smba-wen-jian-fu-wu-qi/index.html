@@ -75,6 +75,9 @@
 
 <p>Samba是一个能让Linux系统应用Microsoft网络通讯协议的软件，而SMB是Server Message Block的缩写，即为服务器消息块 ，SMB主要是作为Microsoft的网络通讯协议，后来Samba将SMB通信协议应用到了Linux系统上，就形成了现在的Samba软件。后来微软又把 SMB 改名为 CIFS（Common Internet File System），即公共 Internet 文件系统，并且加入了许多新的功能，这样一来，使得Samba具有了更强大的功能。</p>
 
+<!-- more-->
+
+
 <p>Samba最大的功能就是可以用于Linux与windows系统直接的文件共享和打印共享，Samba既可以用于windows与Linux之间的文件共享，也可以用于Linux与Linux之间的资源共享，由于NFS(网络文件系统）可以很好的完成Linux与Linux之间的数据共享，因而 Samba较多的用在了Linux与windows之间的数据共享上面。</p>
 
 <p>SMB是基于客户机/服务器型的协议，因而一台Samba服务器既可以充当文件共享服务器，也可以充当一个Samba的客户端，例如，一台在Linux 下已经架设好的Samba服务器，windows客户端就可以通过SMB协议共享Samba服务器上的资源文件，同时，Samba服务器也可以访问网络中 其它windows系统或者Linux系统共享出来的文件。</p>
@@ -404,7 +407,7 @@ guest ok = yes
 
 <p>在windows下通过“&#92;ip地址”的方式访问其它文件资源时，一般第一次需要输入密码，以后就无需输入密码直接登陆了，那么如果我们要切换到其它Samba用户怎么办呢？可以在windows下执行如下指令实现：</p>
 
-<p>首先通过开始&ndash;>运行&ndash;>cmd 输入：“net use”命令查看现有的连接，然后执行“net use \Samba服务器IP地址或者netbios名称\ipc$  /del”，删除Samba服务器已经建立的连接。或者执行“net use * /del”将现在所有的连接全部删除。最后，再次执行“\ip地址”时，就可以切换用户了。</p>
+<p>首先通过开始&ndash;>运行&ndash;>cmd 输入：“net use”命令查看现有的连接，然后执行“net use &#92;Samba服务器IP地址或者netbios名称\ipc$  /del”，删除Samba服务器已经建立的连接。或者执行“net use * /del”将现在所有的连接全部删除。最后，再次执行“&#92;ip地址”时，就可以切换用户了。</p>
 
 <p><strong>Linux客户端访问操作</strong></p>
 
@@ -449,7 +452,7 @@ smb: \&gt; ?           在这里输入?即可查看在smb命令行可用的所�
 
 <p>用户名和密码挂载    后面可以跟</p>
 
-<pre><code>#mount -t cifs -l //10.0.0.1/public /mnt/samba -o username=tian,password=paaswd
+<pre><code># mount -t cifs -l //10.0.0.1/public /mnt/samba -o username=tian,password=paaswd
 </code></pre>
 
 <p>用root用户，编辑 vi /etc/fstab, 在最后面加入：</p>
@@ -497,7 +500,7 @@ service swat
 </code></pre>
 
 <p>3.打开 swat<br/>
-在服务端启动 swat后，我们就可以通过 swat允许范围内的客户机的浏览器中，通过 <a href="http://%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%86%85%E7%BD%91IP:901">http://%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%86%85%E7%BD%91IP:901</a> 来访问服务端的 swat了，输入 root用户的用户名及密码进入 swat的管理首页，<br/>
+在服务端启动 swat后，我们就可以通过 swat允许范围内的客户机的浏览器中，通过 &ldquo;<a href="http://%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%86%85%E7%BD%91IP:901">http://%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E5%86%85%E7%BD%91IP:901</a>&rdquo; 来访问服务端的 swat了，输入 root用户的用户名及密码进入 swat的管理首页，<br/>
 通过 swat管理 Samba 与直接修改 smb.conf 的方式，在本质上并无差异，但通过浏览器访问的方式，可以使 Samba 的管理更加温和化，更加适用于不擅长使用文本界面、直接修改配置文件的朋友。</p>
 
 <p>4.通过swat配置samba<br/>
