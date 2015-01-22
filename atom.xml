@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-01-22T16:29:30+08:00</updated>
+  <updated>2015-01-22T16:34:20+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[BLACKROOM]]></name>
@@ -38,6 +38,8 @@
 Samba版本：samba-3.6.9-169.el6_5.x86_64<br/>
 防火墙已关闭/iptables: Firewall is not running.
 SELINUX=disabled</p>
+
+<p>如果需要开启防火墙只需要打开<strong>TCP139端口和UDP137,138口端</strong></p>
 
 <h2>三.安装Samba服务</h2>
 
@@ -81,18 +83,21 @@ samba   服务器端软件，主要提供samba服务器的守护程序，共享�
 
 <pre><code>[global]
 config file = /usr/local/samba/lib/smb.conf.%m  
-说明：config file可以让你使用另一个配置文件来覆盖缺省的配置文件。如果文件不存在，则该项无效。这个参数很有用，可以使得samba配置更灵活，可以让一台 samba服务器模拟多台不同配置的服务器。比如，你想让PC1（主机名）这台电脑在访问Samba Server时使用它自己的配置文件，那么先在/etc/samba/host/下为PC1配置一个名为smb.conf.pc1的文件，然后在 smb.conf中加入：config file = /etc/samba/host/smb.conf.%m。这样当PC1请求连接Samba Server时，smb.conf.%m就被替换成smb.conf.pc1。这样，对于PC1来说，它所使用的Samba服务就是由 smb.conf.pc1定义的，而其他机器访问Samba Server则还是应用smb.conf。
-workgroup = WORKGROUP  
-说明：设定 Samba Server 所要加入的工作组或者域。
-server string = Samba Server Version %v  
-说明：设定 Samba Server 的注释，可以是任何字符串，也可以不填。宏%v表示显示Samba的版本号。
-netbios name = smbserver  
-说明：设置Samba Server的NetBIOS名称。如果不填，则默认会使用该服务器的DNS名称的第一部分。netbios name和workgroup名字不要设置成一样了。
-interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24  
 </code></pre>
 
-<p>说明：设置Samba Server监听哪些网卡，可以写网卡名，也可以写该网卡的IP地址。<br/>
-    hosts allow = 127. 192.168.1. 192.168.10.1</p>
+<p>说明：config file可以让你使用另一个配置文件来覆盖缺省的配置文件。如果文件不存在，则该项无效。这个参数很有用，可以使得samba配置更灵活，可以让一台 samba服务器模拟多台不同配置的服务器。比如，你想让PC1（主机名）这台电脑在访问Samba Server时使用它自己的配置文件，那么先在/etc/samba/host/下为PC1配置一个名为smb.conf.pc1的文件，然后在 smb.conf中加入：config file = /etc/samba/host/smb.conf.%m。这样当PC1请求连接Samba Server时，smb.conf.%m就被替换成smb.conf.pc1。这样，对于PC1来说，它所使用的Samba服务就是由 smb.conf.pc1定义的，而其他机器访问Samba Server则还是应用smb.conf。<br/>
+    workgroup = WORKGROUP<br/>
+说明：设定 Samba Server 所要加入的工作组或者域。<br/>
+    server string = Samba Server Version %v<br/>
+说明：设定 Samba Server 的注释，可以是任何字符串，也可以不填。宏%v表示显示Samba的版本号。<br/>
+    netbios name = smbserver<br/>
+说明：设置Samba Server的NetBIOS名称。如果不填，则默认会使用该服务器的DNS名称的第一部分。netbios name和workgroup名字不要设置成一样了。<br/>
+    interfaces = lo eth0 192.168.12.2/24 192.168.13.2/24</p>
+
+<p>说明：设置Samba Server监听哪些网卡，可以写网卡名，也可以写该网卡的IP地址。</p>
+
+<pre><code>hosts allow = 127. 192.168.1. 192.168.10.1  
+</code></pre>
 
 <p>说明：表示允许连接到Samba Server的客户端，多个参数以空格隔开。可以用一个IP表示，也可以用一个网段表示。hosts deny 与hosts allow 刚好相反。<br/>
 例如：hosts allow=172.17.2.EXCEPT172.17.2.50<br/>
