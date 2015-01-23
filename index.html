@@ -128,6 +128,96 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/03/28/linux-upload-php-module/">linux下加载PHP扩展模块的一种方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-03-28T16:14:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>4:14 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>linux下加载PHP扩展模块程序的一种方法！！</p>
+
+<p>我们在使用php源码包安装时，加载php的扩展模块非常方便，使用confgiure命令配置时加载相关模块非常的灵活。但是如果是rpm包安装的该如何自如的加载模块呢？</p>
+
+<p>php提供了一个开发包<strong>php-devel</strong>的RPM包，安装后，会在系统/usr/bin目录下新增了两条命令<strong>phpize</strong>和<strong>php-config</strong>。</p>
+
+<pre><code>phpize  命令是用来准备 PHP 扩展库的编译环境的。
+php-config  主要是负责扩展程序的配置。
+</code></pre>
+
+<p><strong>安装方法</strong></p>
+
+<p>先查看系统中已安装了那些php程序，主要是查看是否安装了php开发包php-devel的rpm包。如果没有，我们需要安装下php-devel 。</p>
+
+<pre><code># rpm -qa|grep php
+php-cli-5.3.3-27.el6_5.2.x86_64
+php-mysql-5.3.3-27.el6_5.2.x86_64
+php-common-5.3.3-27.el6_5.2.x86_64
+php-pdo-5.3.3-27.el6_5.2.x86_64
+php-5.3.3-27.el6_5.2.x86_64
+php-xml-5.3.3-27.el6_5.2.x86_64
+php-gd-5.3.3-27.el6_5.2.x86_64
+php-mcrypt-5.3.3-3.el6.x86_64
+php-bcmath-5.3.3-27.el6_5.2.x86_64
+php-mbstring-5.3.3-27.el6_5.2.x86_64
+</code></pre>
+
+<p>系统中并没有安装php-devel的rpm包，需要安装一下，可以去官网下载rpm包，也可以使用yum安装非常方便。</p>
+
+<pre><code># yum -y install php-devel
+</code></pre>
+
+<p>安装成功后，会在系统/usr/bin目录下新增了两条命令<strong>phpize</strong>和<strong>php-config</strong>。</p>
+
+<p><strong>使用方法</strong></p>
+
+<p>以安装php protobuf模块为例，其他模块雷同。</p>
+
+<pre><code># git clone https://github.com/allegro/php-protobuf.git
+# cd php-protobuf
+# phpize
+# ./configure
+# make
+# make test
+# make install
+</code></pre>
+
+<p>下载软件包，我这里软件包在github上所以直接用git克隆下来，进入软件包执行 <strong>phpize</strong> 准备PHP扩展库的编译环境，后面就是编译安装了。</p>
+
+<p>安装成功后，我们需要修改php.ini配置文件.</p>
+
+<pre><code># echo "extension=protobuf.so" &gt; /etc/php.d/protobuf.ini
+# php -m
+</code></pre>
+
+<p>可以使用 <strong>php -m</strong> 命令查看下是否加载了protobuf模块。<br/>
+也可以使用简单的php网页查看php的安装信息。</p>
+
+<pre><code>&lt;?
+phpinfo()
+?&gt;
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/01/28/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/">Ulimit打开的文件和用户名进程</a></h1>
     
     
@@ -246,15 +336,15 @@
       </li>
     
       <li class="post">
+        <a href="/blog/2013/03/28/linux-upload-php-module/">linux下加载PHP扩展模块的一种方法</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/28/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/">Ulimit打开的文件和用户名进程</a>
       </li>
     
       <li class="post">
         <a href="/blog/2013/01/25/markdown-ji-chu-(kuai-su-ru-men-)/">Markdown: 基础 （快速入门）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/20/li-yong-octopressbu-shu-bo-ke-dao-github/">利用octopress部署博客到github</a>
       </li>
     
   </ul>
