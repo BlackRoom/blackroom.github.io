@@ -1,15 +1,13 @@
 ---
 layout: post
 title: "linux下加载PHP扩展模块的一种方法"
-date: 2013-03-28 16:14
+date: 2013-04-15 13:14
 comments: true
 categories: 
 ---
 
-linux下加载PHP扩展模块程序的一种方法！！ 
-
 我们在使用php源码包安装时，加载php的扩展模块非常方便，使用confgiure命令配置时加载相关模块非常的灵活。但是如果是rpm包安装的该如何自如的加载模块呢？
-
+<!-- more -->
 php提供了一个开发包**php-devel**的RPM包，安装后，会在系统/usr/bin目录下新增了两条命令**phpize**和**php-config**。
 
 	phpize	命令是用来准备 PHP 扩展库的编译环境的。
