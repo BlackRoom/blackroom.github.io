@@ -45,7 +45,7 @@ changepassword是能让用户从web界面修改系统密码的一款软件，它
 创建需要用到的目录（第二个为编译configure时候用到的cgidir）
 
 	mkdir –pv /var/smbchangepwd
-	mkdir –pv /home/webuser/www/samba-change-passwd
+	mkdir –pv /home/admin/www/samba-change-passwd
 
 编译安装
 
@@ -53,7 +53,7 @@ changepassword是能让用户从web界面修改系统密码的一款软件，它
  
 这里解释一下:
 
-	–enable-cgidir		这个目录是Web页面要读取的目录，一般可以设置为网站的根目录，或者网站根目录下的某个目录，比如/var/www/smb/，程序会将最后的web访问页放在这个目录中。
+	–enable-cgidir	这个目录是Web页面要读取的目录，一般可以设置为网站的根目录，或者网站根目录下的某个目录，比如/var/www/smb/，程序会将最后的web访问页放在这个目录中。
 	–enable-language	设置程序的显示语言，里面支持Chinese
 	–enable-smbpasswd	smb的密码文件存放位置
 	–disable-squidpasswd	禁用squid同步密码
@@ -78,25 +78,23 @@ changepassword是能让用户从web界面修改系统密码的一款软件，它
 
 这时从新make,make install即可完成安装。
 
-	make
-	make install
+	# make
+	# make install
 
 安装程序会拷贝一个叫changepassword.cgi的文件到我们指定的–cgidir目录，这时，只要我们配置好http,确保能从web直接访问到这个文件即可。当然，别忘了拷贝一个你喜欢的图片到–cgidir所指定的那个目录,名字当然就用那个–logo的名字~
 这个根据自己Web配置不同自己添加。
 
 ####2.配置Apache
 
-设置apache支持cgi模块
+设置apache支持cgi模，搜索cgi 去掉如下注释
+
 	# vi /usr/local/apache2/conf/httpd.conf
-
-搜索cgi 去掉如下注释.
-
 	--------------
 	LoadModule cgid_module modules/mod_cgid.so
 	AddHandler cgi-script .cgi
 	--------------
 
-搜索 DocumentRoot,在/usr/local/apache2/htdocs类目下找到Options选项，修改为.
+	搜索 DocumentRoot,在/usr/local/apache2/htdocs类目下找到Options选项，修改为.
 
 	--------------
 	Options Indexes FollowSymLinks ExecCGI
@@ -112,8 +110,8 @@ OK,一切就绪后，打开Web，在浏览器中输入：
 
 ####3.常见错误提示：
 
-  a.提示无法更改临时目录，解决方法：查看/var/smbchangepwd临时目录权限是否为777 还要要在编译前把目录改为777,。
-  b.提示没有的用户或用户无效，在下面添加完pam模块后请务必注释掉默认的passdb backend = tdbsam项，改为passdb backend = smbpasswd    确认smbpasswd -a 添加的用户在 /etc/samba/smbpasswd文件中
+#####a.提示无法更改临时目录，解决方法：查看/var/smbchangepwd临时目录权限是否为777 还要要在编译前把目录改为777。  
+#####b.提示没有的用户或用户无效，在下面添加完pam模块后请务必注释掉默认的passdb backend = tdbsam项，改为passdb backend = smbpasswd    确认smbpasswd -a 添加的用户在 /etc/samba/smbpasswd文件中
  
 至此已经配置好web页面改密码但是现在改的只是系统的密码还没有配置samba同步系统密码。
 
