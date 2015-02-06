@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux Disk I/O Error - BLACKROOM</title>
+  <meta name="author" content="BLACKROOM">
+
+  
+  <meta name="description" content="今天线上某一大数据存储应用挂掉了，查看日志发现大量的I/O错误，记录下。 应用突然挂掉查看应用日志发现有几个表出现写入错误，接着查看系统日志，发现大量如下信息。 kernel: end_request: I/O error, dev sda, sector 155697224
+kernel: sd &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.blackroom.cn/blog/2013/06/17/linux-disk-io-error/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="BLACKROOM" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">BLACKROOM</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linux Disk I/O Error</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-06-17T16:34:00+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>4:34 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今天线上某一大数据存储应用挂掉了，查看日志发现大量的I/O错误，记录下。</p>
+
+<!--more-->
+
+
+<p>应用突然挂掉查看应用日志发现有几个表出现写入错误，接着查看系统日志，发现大量如下信息。</p>
+
+<pre><code>kernel: end_request: I/O error, dev sda, sector 155697224
+kernel: sd 0:2:0:0: [sda]  Result: hostbyte=DID_ERROR driverbyte=DRIVER_OK
+kernel: sd 0:2:0:0: [sda] CDB: Read(10): 28 00 09 47 c0 48 00 00 08 00
+</code></pre>
+
+<p>第一个想到的是硬盘坏了，这台机器上面是8块600GSAS硬盘做RAID0目的是为了充分利用磁盘空间和读写速度。</p>
+
+<p><strong>利用MegaCli检查下RAID的状态已经磁盘状况</strong></p>
+
+<p>MegaCli是一款管理维护硬件RAID软件，可以通过它来了解当前raid卡的所有信息，包括 raid卡的型号，raid的阵列类型，raid 上各磁盘状态，等等</p>
+
+<pre><code>/opt/MegaRAID/MegaCli/MegaCli64 -LDInfo -Lall -aALL
+
+…………
+Bad Blocks Exist: Yes   #显示有坏块
+</code></pre>
+
+<p>接着查看下是那几块硬盘有问题</p>
+
+<pre><code>/opt/MegaRAID/MegaCli/MegaCli64 -PDList -aALL
+
+…………
+Slot Number: 0
+Media Error Count: 20   #正常状态下为0
+Other Error Count: 0
+…………
+Slot Number: 6
+Media Error Count: 2    #正常状态下为0
+Other Error Count: 0
+</code></pre>
+
+<p>发现有两块硬盘中有坏块，分别是第一块和第5块。机架上的硬盘标识是从0开始的。</p>
+
+<p><strong>利用Badblocks命令将磁盘中的坏块找出来</strong></p>
+
+<p>badblocks是linux及其类似的操作系统中，扫描检查硬盘和外部设备损坏扇区的命令工具。损坏的扇区或者损坏的区块是硬盘中因为永久损坏或者是操作系统不能读取的空间。</p>
+
+<pre><code>fdisk -l    #查看下系统中的分区
+badblocks -v /dev/sda2  
+badblocks -v /dev/sda2  /tmp/bad-blocks.txt #也可以打印到文件中
+</code></pre>
+
+<p>这个时候应该尽早将应用下线，替换掉有坏块的硬盘，当然你也可以继续使用，建议换掉。</p>
+
+<p>如果要继续使用硬盘可以使用<strong>e2fsck</strong>命令强迫操作系统不使用这些损坏的区块存储数据。<br/>
+利用badblocks扫描检查硬盘的结果使用e2fsck命令来配置操作系统不在这些损坏的扇区中存储数据。</p>
+
+<pre><code>e2fsck -l /tmp/bad-blocks.txt  /dev/sda2    #使用之前扫描坏块打印到的文件
+</code></pre>
+
+<p>注意：在运行e2fsck命令前，请保证设备没有被挂载。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">BLACKROOM</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-06-17T16:34:00+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>4:34 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/15/linux-upload-php-module/" title="Previous Post: linux下加载PHP扩展模块的一种方法">&laquo; linux下加载PHP扩展模块的一种方法</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/06/17/linux-disk-io-error/">Linux Disk I/O Error</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/15/linux-upload-php-module/">linux下加载PHP扩展模块的一种方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/05/samba-web-modify-password/">让Samba用户通过WEB页面修改密码</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/03/28/smba-wen-jian-fu-wu-qi/">Samba文件服务器配置</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/28/ulimitda-kai-de-wen-jian-he-yong-hu-ming-jin-cheng/">Ulimit打开的文件和用户名进程</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - BLACKROOM -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
