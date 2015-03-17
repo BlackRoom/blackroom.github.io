@@ -9,7 +9,7 @@
   <meta name="author" content="BLACKROOM">
 
   
-  <meta name="description" content="Linux中允许多个网卡作为一个网卡使用,提供负载均衡或者是备份冗余。 让我们假设我们有两个网络接口(“eth0”和“eth1”),我们把它绑定为一个(“bond0”)。 添加以下行“/ etc / modprobe命令。conf”文件。 alias bond0 bonding 先备份/etc/ &hellip;">
+  <meta name="description" content="Linux中允许多个网卡作为一个网卡使用,提供负载均衡或者是备份冗余。 让我们假设我们有两个网络接口(“eth0”和“eth1”),我们把它绑定为一个(“bond0”)。 添加以下行“ /etc/modprobe.conf ”文件。 alias bond0 bonding 先备份/etc/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,7 +78,7 @@
 
 <p>让我们假设我们有两个网络接口(“eth0”和“eth1”),我们把它绑定为一个(“bond0”)。</p>
 
-<p>添加以下行“/ etc / modprobe命令。conf”文件。</p>
+<p>添加以下行“ /etc/modprobe.conf ”文件。</p>
 
 <pre><code>alias bond0 bonding
 </code></pre>
@@ -122,7 +122,7 @@ ONBOOT=yes
 Shutting down interface bond0:                              [  OK  ]
 Shutting down loopback interface:                           [  OK  ]
 Bringing up loopback interface:                             [  OK  ]
-Bringing up interface bond0:  Determining if ip address 192.168.47.210 is already in use for device bond0...
+Bringing up interface bond0:  Determining if ip address 192.168.6.210 is already in use for device bond0...
                                                             [  OK  ]
 Bringing up interface eth0:                                 [  OK  ]
 Bringing up interface eth1:                                 [  OK  ]
@@ -135,14 +135,14 @@ Ethernet Channel Bonding Driver: v3.6.0 (September 26, 2009)
 
 Bonding Mode: fault-tolerance (active-backup)
 Primary Slave: eth0 (primary_reselect always)
-Currently Active Slave: eth1
+\**Currently Active Slave: eth1\**
 MII Status: up
 MII Polling Interval (ms): 100
 Up Delay (ms): 0
 Down Delay (ms): 0
 
 Slave Interface: eth0
-MII Status: down
+\**MII Status: down\**
 Speed: Unknown
 Duplex: Unknown
 Link Failure Count: 0
@@ -150,7 +150,7 @@ Permanent HW addr: b0:83:fe:bf:ca:8c
 Slave queue ID: 0
 
 Slave Interface: eth1
-MII Status: up
+\**MII Status: up\**
 Speed: 100 Mbps
 Duplex: full
 Link Failure Count: 0
@@ -162,7 +162,7 @@ Slave queue ID: 0
 
 <pre><code># ifconfig
 bond0     Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
-          inet addr:192.168.6.210  Bcast:192.168.47.255  Mask:255.255.255.0
+          inet addr:192.168.6.210  Bcast:192.168.6.255  Mask:255.255.255.0
       inet6 addr: fe80::b283:feff:febf:ca8c/64 Scope:Link
       UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
           RX packets:14320 errors:0 dropped:0 overruns:0 frame:0
@@ -196,11 +196,11 @@ lo        Link encap:Local Loopback
           RX bytes:2084 (2.0 KiB)  TX bytes:2084 (2.0 KiB)
 </code></pre>
 
-<p>一旦配置好bond,它就像任何其他以太网设备。例如,您可以配置别名接口来处理多个IP地址,如下所示。
+<p>一旦配置好bond,它就像任何其他以太网设备。例如,您可以配置别名接口来处理多个IP地址,如下所示。<br/>
 在 &ldquo;/etc/sysconfig/network-scripts&rdquo; 创建 &ldquo;ifcfg-bond0:1&rdquo; 和 &ldquo;ifcfg-bond0:2&rdquo;</p>
 
 <pre><code># ifcfg-bond0:1 文件内容
-**DEVICE=bond0:1**
+\**DEVICE=bond0:1\**
 BOOTPROTO=none
 ONBOOT=yes
 NETWORK=192.168.0.0
@@ -210,7 +210,7 @@ USERCTL=no
 BONDING_OPTS="mode=1 miimon=100"
 
 # ifcfg-bond0:2 文件内容
-**DEVICE=bond0:2**
+\**DEVICE=bond0:2\**
 BOOTPROTO=none
 ONBOOT=yes
 NETWORK=192.168.0.0
@@ -220,14 +220,14 @@ USERCTL=no
 BONDING_OPTS="mode=1 miimon=100"
 </code></pre>
 
-<p>注意,设备名称和IP地址不同于原来的“ifcfg-bond0”文件。
+<p>注意,设备名称和IP地址不同于原来的“ifcfg-bond0”文件。<br/>
 重新启动网络服务使更改生效。</p>
 
 <pre><code># service network restart
 Shutting down interface bond0:                             [  OK  ]
 Shutting down loopback interface:                          [  OK  ]
 Bringing up loopback interface:                            [  OK  ]
-Bringing up interface bond0:  Determining if ip address 192.168.47.210 is already in use for device bond0...
+Bringing up interface bond0:  Determining if ip address 192.168.6.210 is already in use for device bond0...
 Determining if ip address 192.168.0.210 is already in use for device bond0...
 Determining if ip address 192.168.0.220 is already in use for device bond0...
                                                            [  OK  ]
@@ -239,7 +239,7 @@ Bringing up interface eth1:                                [  OK  ]
 
 <pre><code># ifconfig
 bond0     Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
-          inet addr:192.168.6.210  Bcast:192.168.47.255  Mask:255.255.255.0
+          inet addr:192.168.6.210  Bcast:192.168.6.255  Mask:255.255.255.0
           inet6 addr: fe80::b283:feff:febf:ca8c/64 Scope:Link
           UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
           RX packets:8918 errors:0 dropped:0 overruns:0 frame:0
@@ -291,14 +291,15 @@ miimon=100表示每100ms检查一次链路连接状态，如果不通则会切�
 primary=eth0表示主备模式下eth0为默认的active网卡</p>
 
 <p>miimon是毫秒数，每100毫秒触发检测线路稳定性的事件。<br/>
-mode 是ifenslave的工作状态。<br/>
-一共有7种方式：<br/>
+mode 是ifenslave的工作状态。</p>
+
+<p>一共有7种方式：<br/>
 =0： (balance-rr) Round-robin policy: （平衡抡循环策略）：传输数据包顺序是依次传输，直到最后一个传输完毕， 此模式提供负载平衡和容错能力。<br/>
 =1： (active-backup) Active-backup policy:（主-备份策略）：只有一个设备处于活动状态。 一个宕掉另一个马上由备份转换为主设备。mac地址是外部可见得。 此模式提供了容错能力。
-=2：(balance-xor) XOR policy:（平衡 策略）： 传输根据原地址布尔值选择传输设备。 此模式提供负载平衡和容错能力。
+=2：(balance-xor) XOR policy:（平衡 策略）： 传输根据原地址布尔值选择传输设备。 此模式提供负载平衡和容错能力。<br/>
 =3：(broadcast) broadcast policy:  （广播策略）：将所有数据包传输给所有接口。 此模式提供了容错能力。<br/>
 =4：(802.3ad) IEEE 802.3ad Dynamic link aggregation.   IEEE 802.3ad 动态链接聚合：创建共享相同的速度和双工设置的聚合组。<br/>
-=5：(balance-tlb) Adaptive transmit load balancing（适配器传输负载均衡）:没有特殊策略，第一个设备传不通就用另一个设备接管第一个设备正在处理的mac地址，帮助上一个传。
+=5：(balance-tlb) Adaptive transmit load balancing（适配器传输负载均衡）:没有特殊策略，第一个设备传不通就用另一个设备接管第一个设备正在处理的mac地址，帮助上一个传。<br/>
 =6：(balance-alb) Adaptive load balancing: （适配器传输负载均衡）：大致意思是包括mode5，bonding驱动程序截获 ARP 在本地系统发送出的请求，用其中之一的硬件地址覆盖从属设备的原地址。就像是在服务器上不同的人使用不同的硬件地址一样。</p>
 
 <p>这些选项可以用命令：# modinfo bonding 来查看</p>
@@ -379,7 +380,7 @@ mode 是ifenslave的工作状态。<br/>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - BLACKROOM -
+  Copyright &copy; 2015 - BLACKROOM -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
