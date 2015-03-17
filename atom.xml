@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-03-17T14:31:11+08:00</updated>
+  <updated>2015-03-17T14:33:29+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[BLACKROOM]]></name>
@@ -107,75 +107,41 @@ Slave queue ID: 0
 
 <p>使用ifconfig命令查看IP地址信息,它显示了“bond0”运行的是“eth1”目前“eth0”为备份状态。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># fconfig
-</span><span class='line'>bond0     Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
-</span><span class='line'>          inet addr:192.168.6.210  Bcast:192.168.47.255  Mask:255.255.255.0
-</span><span class='line'>    inet6 addr: fe80::b283:feff:febf:ca8c/64 Scope:Link
-</span><span class='line'>    UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
-</span><span class='line'>    RX packets:8918 errors:0 dropped:0 overruns:0 frame:0
-</span><span class='line'>    TX packets:34 errors:0 dropped:0 overruns:0 carrier:0
-</span><span class='line'>          collisions:0 txqueuelen:0 
-</span><span class='line'>          RX bytes:924051 (902.3 KiB)  TX bytes:4006 (3.9 KiB)
-</span><span class='line'>
-</span><span class='line'>eth0      Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
-</span><span class='line'>          UP BROADCAST SLAVE MULTICAST  MTU:1500  Metric:1
-</span><span class='line'>          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-</span><span class='line'>          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-</span><span class='line'>          collisions:0 txqueuelen:1000 
-</span><span class='line'>          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
-</span><span class='line'>          Interrupt:16 
-</span><span class='line'>
-</span><span class='line'>eth1      Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
-</span><span class='line'>          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1
-</span><span class='line'>          RX packets:14320 errors:0 dropped:0 overruns:0 frame:0
-</span><span class='line'>          TX packets:70 errors:0 dropped:0 overruns:0 carrier:0
-</span><span class='line'>          collisions:0 txqueuelen:1000 
-</span><span class='line'>          RX bytes:1515495 (1.4 MiB)  TX bytes:10396 (10.1 KiB)
-</span><span class='line'>          Interrupt:17 
-</span><span class='line'>
-</span><span class='line'>lo        Link encap:Local Loopback  
-</span><span class='line'>          inet addr:127.0.0.1  Mask:255.0.0.0
-</span><span class='line'>          inet6 addr: ::1/128 Scope:Host
-</span><span class='line'>          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-</span><span class='line'>          RX packets:24 errors:0 dropped:0 overruns:0 frame:0
-</span><span class='line'>          TX packets:24 errors:0 dropped:0 overruns:0 carrier:0
-</span><span class='line'>          collisions:0 txqueuelen:0 
-</span><span class='line'>          RX bytes:2084 (2.0 KiB)  TX bytes:2084 (2.0 KiB)</span></code></pre></td></tr></table></div></figure>
+<pre><code># fconfig
+bond0     Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
+          inet addr:192.168.6.210  Bcast:192.168.47.255  Mask:255.255.255.0
+      inet6 addr: fe80::b283:feff:febf:ca8c/64 Scope:Link
+      UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
+      RX packets:8918 errors:0 dropped:0 overruns:0 frame:0
+      TX packets:34 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:924051 (902.3 KiB)  TX bytes:4006 (3.9 KiB)
 
+eth0      Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
+          UP BROADCAST SLAVE MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+          Interrupt:16 
+
+eth1      Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
+          UP BROADCAST RUNNING SLAVE MULTICAST  MTU:1500  Metric:1
+          RX packets:14320 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:70 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1515495 (1.4 MiB)  TX bytes:10396 (10.1 KiB)
+          Interrupt:17 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:24 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:24 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:2084 (2.0 KiB)  TX bytes:2084 (2.0 KiB)
+</code></pre>
 
 <p>一旦配置好bond,它就像任何其他以太网设备。例如,您可以配置别名接口来处理多个IP地址,如下所示。<br/>
 在 &ldquo;/etc/sysconfig/network-scripts&rdquo; 创建 &ldquo;ifcfg-bond0:1&rdquo; 和 &ldquo;ifcfg-bond0:2&rdquo;</p>
