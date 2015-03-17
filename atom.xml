@@ -4,7 +4,7 @@
   <title><![CDATA[BLACKROOM]]></title>
   <link href="http://blog.blackroom.cn/atom.xml" rel="self"/>
   <link href="http://blog.blackroom.cn/"/>
-  <updated>2015-03-17T14:33:29+08:00</updated>
+  <updated>2015-03-17T14:36:25+08:00</updated>
   <id>http://blog.blackroom.cn/</id>
   <author>
     <name><![CDATA[BLACKROOM]]></name>
@@ -110,10 +110,10 @@ Slave queue ID: 0
 <pre><code># fconfig
 bond0     Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
           inet addr:192.168.6.210  Bcast:192.168.47.255  Mask:255.255.255.0
-      inet6 addr: fe80::b283:feff:febf:ca8c/64 Scope:Link
-      UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
-      RX packets:8918 errors:0 dropped:0 overruns:0 frame:0
-      TX packets:34 errors:0 dropped:0 overruns:0 carrier:0
+              inet6 addr: fe80::b283:feff:febf:ca8c/64 Scope:Link
+              UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
+              RX packets:8918 errors:0 dropped:0 overruns:0 frame:0
+              TX packets:34 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0 
           RX bytes:924051 (902.3 KiB)  TX bytes:4006 (3.9 KiB)
 
