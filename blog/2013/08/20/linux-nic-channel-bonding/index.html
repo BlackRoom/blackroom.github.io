@@ -135,14 +135,14 @@ Ethernet Channel Bonding Driver: v3.6.0 (September 26, 2009)
 
 Bonding Mode: fault-tolerance (active-backup)
 Primary Slave: eth0 (primary_reselect always)
-\**Currently Active Slave: eth1\**
+Currently Active Slave: eth1
 MII Status: up
 MII Polling Interval (ms): 100
 Up Delay (ms): 0
 Down Delay (ms): 0
 
 Slave Interface: eth0
-\**MII Status: down\**
+MII Status: down
 Speed: Unknown
 Duplex: Unknown
 Link Failure Count: 0
@@ -150,7 +150,7 @@ Permanent HW addr: b0:83:fe:bf:ca:8c
 Slave queue ID: 0
 
 Slave Interface: eth1
-\**MII Status: up\**
+MII Status: up
 Speed: 100 Mbps
 Duplex: full
 Link Failure Count: 0
@@ -163,10 +163,10 @@ Slave queue ID: 0
 <pre><code># ifconfig
 bond0     Link encap:Ethernet  HWaddr B0:83:FE:BF:CA:8C  
           inet addr:192.168.6.210  Bcast:192.168.6.255  Mask:255.255.255.0
-      inet6 addr: fe80::b283:feff:febf:ca8c/64 Scope:Link
-      UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
-          RX packets:14320 errors:0 dropped:0 overruns:0 frame:0
-      TX packets:70 errors:0 dropped:0 overruns:0 carrier:0
+              inet6 addr: fe80::b283:feff:febf:ca8c/64 Scope:Link
+              UP BROADCAST RUNNING MASTER MULTICAST  MTU:1500  Metric:1
+              RX packets:14320 errors:0 dropped:0 overruns:0 frame:0
+              TX packets:70 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0 
           RX bytes:1515495 (1.4 MiB)  TX bytes:10396 (10.1 KiB)
 
@@ -200,22 +200,22 @@ lo        Link encap:Local Loopback
 在 &ldquo;/etc/sysconfig/network-scripts&rdquo; 创建 &ldquo;ifcfg-bond0:1&rdquo; 和 &ldquo;ifcfg-bond0:2&rdquo;</p>
 
 <pre><code># ifcfg-bond0:1 文件内容
-\**DEVICE=bond0:1\**
+DEVICE=bond0:1
 BOOTPROTO=none
 ONBOOT=yes
 NETWORK=192.168.0.0
 NETMASK=255.255.255.0
-**IPADDR=192.168.0.210**
+IPADDR=192.168.0.210
 USERCTL=no
 BONDING_OPTS="mode=1 miimon=100"
 
 # ifcfg-bond0:2 文件内容
-\**DEVICE=bond0:2\**
+DEVICE=bond0:2
 BOOTPROTO=none
 ONBOOT=yes
 NETWORK=192.168.0.0
 NETMASK=255.255.255.0
-**IPADDR=192.168.0.220**
+IPADDR=192.168.0.220
 USERCTL=no
 BONDING_OPTS="mode=1 miimon=100"
 </code></pre>
@@ -295,7 +295,7 @@ mode 是ifenslave的工作状态。</p>
 
 <p>一共有7种方式：<br/>
 =0： (balance-rr) Round-robin policy: （平衡抡循环策略）：传输数据包顺序是依次传输，直到最后一个传输完毕， 此模式提供负载平衡和容错能力。<br/>
-=1： (active-backup) Active-backup policy:（主-备份策略）：只有一个设备处于活动状态。 一个宕掉另一个马上由备份转换为主设备。mac地址是外部可见得。 此模式提供了容错能力。
+=1： (active-backup) Active-backup policy:（主-备份策略）：只有一个设备处于活动状态。 一个宕掉另一个马上由备份转换为主设备。mac地址是外部可见得。 此模式提供了容错能力。 <br/>
 =2：(balance-xor) XOR policy:（平衡 策略）： 传输根据原地址布尔值选择传输设备。 此模式提供负载平衡和容错能力。<br/>
 =3：(broadcast) broadcast policy:  （广播策略）：将所有数据包传输给所有接口。 此模式提供了容错能力。<br/>
 =4：(802.3ad) IEEE 802.3ad Dynamic link aggregation.   IEEE 802.3ad 动态链接聚合：创建共享相同的速度和双工设置的聚合组。<br/>
